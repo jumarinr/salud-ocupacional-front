@@ -14,11 +14,17 @@
      <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
        <b-form @submit.prevent="login" class="my-3">
          <b-form-group>
-           <input v-model="email" type="email" id="email" class="form-control"  placeholder="Ingresar email" required>
+           <input v-model="correo" type="email" id="correo" class="form-control"  placeholder="Ingresar email" required>
          </b-form-group>
          <b-form-group>
-           <input v-model="password" type="password" id="password" class="form-control" placeholder="Ingresar Contraseña" required>
-         </b-form-group>
+           <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar Contraseña" required>
+         </b-form-group>         
+         <div v-if="error === true">
+              <div class="alert alert-danger">Usuario o contraseña no</div>
+          </div>
+          <div v-else-if="error === false">
+              <div class="alert alert-success">Has iniciado sesión</div>
+          </div>
          <!-- Botón Registrar -->
          <b-button class="btn btn-primary" type="submit" variant="primary">Iniciar sesión</b-button>
        </b-form>
@@ -34,20 +40,28 @@ export default {
  name: 'Login',
  data () {
    return {
-     email: '',
-     password: ''
+     correo: '',
+     contrasena: '',
+     error: {}
    }
  },
  methods: {
    login () {
-     axios.post('/localhost8080/login', {
-       email: this.email,
-       password: this.password
-     }).then(res => {
+     axios.post('http://localhost:4000/login', {
+       correo: this.correo,
+       contrasena: this.contrasena
+     }).then(res => {       
+       if(res.data.error){
+         this.error = res.data.error;
+         console.log(res.data) 
+       }else{
        localStorage.setItem('user token', res.data)
-       this.email = ''
-       this.password = ''       
-       this.$router.push('/registroVacunas')
+       console.log(res.data);
+       this.error = res.data.error;
+       this.correo = ''
+       this.contrasena = ''       
+       this.$router.push('/vacunas')
+       }
      }).catch(err => {
        // eslint-disable-next-line
        console.log(err)

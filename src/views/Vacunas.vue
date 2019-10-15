@@ -67,7 +67,7 @@ export default {
   methods: {
       registrarVacuna(){
           // Cambiar ruta a la ruta de la api
-          axios.post('http://localhost:4000/vacunas/registro', {
+          axios.post('http://localhost:4000/vacunas', {
               nombre: this.nombre,
               descripcion: this.descripcion,
               periodicidad: this.periodicidad,
