@@ -3,7 +3,9 @@
    <div class="d-flex flex-column align-items-center bg-light px-5 py-4 rounded container w-50 bg-white">
      <!-- Logo de la empresa -->
      <b-media>
-       <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
+       <template>
+        <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
+       </template>
      </b-media>
      <!-- Título de inicio de sesión -->
      <h4 class="px-sm-5 text-center text-sm-left">Inicio de sesión</h4>
@@ -38,13 +40,14 @@ export default {
  },
  methods: {
    login () {
-     axios.post('', {
+     axios.post('/localhost8080/login', {
        email: this.email,
        password: this.password
      }).then(res => {
-       localStorage.setItem('usertoken', res.data)
+       localStorage.setItem('user token', res.data)
        this.email = ''
-       this.password = ''
+       this.password = ''       
+       this.$router.push('/registroVacunas')
      }).catch(err => {
        // eslint-disable-next-line
        console.log(err)
