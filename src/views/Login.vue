@@ -3,9 +3,7 @@
    <div class="d-flex flex-column align-items-center bg-light px-5 py-4 rounded container w-50 bg-white">
      <!-- Logo de la empresa -->
      <b-media>
-       <template>
         <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
-       </template>
      </b-media>
      <!-- Título de inicio de sesión -->
      <h4 class="px-sm-5 text-center text-sm-left">Inicio de sesión</h4>
@@ -51,11 +49,11 @@ export default {
        if(res.data.error){
          this.error = res.data.error;
        }else{
-       localStorage.setItem('user token', res.data)
+       localStorage.setItem('usertoken', res.data)
        this.error = res.data.error;
        this.correo = ''
        this.contrasena = ''       
-       this.$router.push('/vacunas')
+       this.$router.push('/trabajadores')
        }
      }).catch(err => {
        // eslint-disable-next-line
