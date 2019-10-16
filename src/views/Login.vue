@@ -20,10 +20,7 @@
            <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar Contraseña" required>
          </b-form-group>         
          <div v-if="error === true">
-              <div class="alert alert-danger">Usuario o contraseña no</div>
-          </div>
-          <div v-else-if="error === false">
-              <div class="alert alert-success">Has iniciado sesión</div>
+              <div class="alert alert-danger">Usuario y/o contraseña no encontrado</div>
           </div>
          <!-- Botón Registrar -->
          <b-button class="btn btn-primary" type="submit" variant="primary">Iniciar sesión</b-button>
@@ -53,10 +50,8 @@ export default {
      }).then(res => {       
        if(res.data.error){
          this.error = res.data.error;
-         console.log(res.data) 
        }else{
        localStorage.setItem('user token', res.data)
-       console.log(res.data);
        this.error = res.data.error;
        this.correo = ''
        this.contrasena = ''       
