@@ -3,7 +3,7 @@
    <div class="d-flex flex-column align-items-center bg-light px-5 py-4 rounded container w-50 bg-white">
      <!-- Logo de la empresa -->
      <b-media>
-       <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
+        <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
      </b-media>
      <!-- Título de inicio de sesión -->
      <h4 class="px-sm-5 text-center text-sm-left">Inicio de sesión</h4>
@@ -12,11 +12,14 @@
      <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
        <b-form @submit.prevent="login" class="my-3">
          <b-form-group>
-           <input v-model="email" type="email" id="email" class="form-control"  placeholder="Ingresar email" required>
+           <input v-model="correo" type="email" id="correo" class="form-control"  placeholder="Ingresar email" required>
          </b-form-group>
          <b-form-group>
-           <input v-model="password" type="password" id="password" class="form-control" placeholder="Ingresar Contraseña" required>
-         </b-form-group>
+           <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar Contraseña" required>
+         </b-form-group>         
+         <div v-if="error === true">
+              <div class="alert alert-danger">Usuario y/o contraseña no encontrado</div>
+          </div>
          <!-- Botón Registrar -->
          <b-button class="btn btn-primary" type="submit" variant="primary">Iniciar sesión</b-button>
        </b-form>
@@ -32,19 +35,26 @@ export default {
  name: 'Login',
  data () {
    return {
-     email: '',
-     password: ''
+     correo: '',
+     contrasena: '',
+     error: {}
    }
  },
  methods: {
    login () {
-     axios.post('', {
-       email: this.email,
-       password: this.password
-     }).then(res => {
+     axios.post('http://localhost:4000/login', {
+       correo: this.correo,
+       contrasena: this.contrasena
+     }).then(res => {       
+       if(res.data.error){
+         this.error = res.data.error;
+       }else{
        localStorage.setItem('usertoken', res.data)
-       this.email = ''
-       this.password = ''
+       this.error = res.data.error;
+       this.correo = ''
+       this.contrasena = ''       
+       this.$router.push('/trabajadores')
+       }
      }).catch(err => {
        // eslint-disable-next-line
        console.log(err)

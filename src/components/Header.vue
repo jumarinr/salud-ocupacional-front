@@ -2,7 +2,7 @@
   <header>
     <b-navbar toggleable="lg" sticky>
       <b-navbar-brand href="#">
-        <img src="@/assets/logo.png" height="30" alt="Logo"></img>
+        <img src="@/assets/logo.png" height="30" alt="Logo"/>
         Salud ocupacional
       </b-navbar-brand>
 
