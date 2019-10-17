@@ -6,7 +6,7 @@
       <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5">
         
         <b-form @submit.prevent="registrarTrabajador">
-        <div id="#vista1" v-show="!Ocultar">
+        <div id="#vista1" v-show="!ocultar">
           <!-- Iconos para especificar la vista -->
         <div class="d-flex justify-content-center align-items-center pb-3">
           <span class="icon-user-plus rounded-circle p-2 border border-primary text-primary"></span>
@@ -39,7 +39,7 @@
                 <input type="email" v-model="correo" class="form-control" id="correo" placeholder="Correo" required/>
               </div>
               <div class="form-group">
-                <b-form-select v-model="tipoDocumento" :options="options2" required></b-form-select>
+                <b-form-select v-model="tipoDocumento" :options="opcionesTipoDoc" required></b-form-select>
               </div>
               <div class="form-group">
                 <input type="text" v-model="documento" class="form-control" id="documento" placeholder="Documento" required/>
@@ -51,7 +51,7 @@
                 <input type="text" v-model="celular" class="form-control" id="celular" placeholder="Celular" />
               </div>
               <div class="form-group">
-                <b-form-select v-model="nivelRiesgo" :options="options1" required></b-form-select>
+                <b-form-select v-model="nivelRiesgo" :options="opcionesRiesgo" required></b-form-select>
               </div>
               <div class="form-group">
                 <label for="nacimiento">Fecha de nacimiento</label>
@@ -81,11 +81,11 @@
                 >¿El trabajador se desempeña en el área de salud y seguridad en el trabajo?</label>
               </div>
           </div>
-          <b-button class="float-right" @click="Ocultar = !Ocultar" variant="primary">Siguiente</b-button>
+          <b-button class="float-right" @click="ocultar = !ocultar" variant="primary">Siguiente</b-button>
         </div>
 
         <!-- Seleccion de vacunas -->
-        <div id="#vista2" v-show="Ocultar">
+        <div id="#vista2" v-show="ocultar">
 
         <!-- Título del registro -->
         <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
@@ -104,7 +104,7 @@
             <b-form-group>
               <b-form-checkbox-group
               id="checkbox-group-1"
-              v-model="selected"
+              v-model="detallesVacunacion"
               :options=[]
               name="flavour-1"
             ></b-form-checkbox-group>
@@ -112,10 +112,10 @@
         </div>
         </div>
         <!-- Botón Atras -->
-        <b-button  class="float-left" @click="Ocultar = !Ocultar" variant="primary" v-show="Ocultar">Atras</b-button>
+        <b-button  class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
 
         <!-- Botón Registrar -->
-        <b-button  class="float-right" type="submit" variant="primary" v-show="Ocultar">Registrar</b-button>
+        <b-button  class="float-right" type="submit" variant="primary" v-show="ocultar">Registrar</b-button>
         </b-form>
       </div>
     </Container>
@@ -148,10 +148,10 @@ export default {
       fechaNacimiento: '',
       telefonoFamiliar: '',
       tipoTrabajador: '',
-      selected: [],
+      detallesVacunacion: [],
       error: {},
-      Ocultar:false,
-      options1: [
+      ocultar:false,
+      opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
         {value: 'n1', text: 'I'},
         {value: 'n2', text: 'II'},
@@ -159,7 +159,7 @@ export default {
         {value: 'n4', text: 'IV'},
         {value: 'n5', text: 'V'}
       ],
-      options2: [
+      opcionesTipoDoc: [
         {value: null, text: 'Seleccionar tipo de documento'},
         {value: 'cc', text: 'Cédula de ciudadanía'},
         {value: 'tp', text: 'Pasaporte'}
@@ -181,7 +181,7 @@ export default {
         fechaNacimiento: this.fechaNacimiento,
         telefonoFamiliar: this.telefonoFamiliar,
         tipoTrabajador: this.tipoTrabajador,
-        detallesVacunacion: this.selected
+        detallesVacunacion: this.detallesVacunacion
       }).then(res => {
         this.error = res.data;
 
@@ -202,7 +202,7 @@ export default {
       this.fechaNacimiento= '';
       this.telefonoFamiliar= '';
       this.tipoTrabajador= '';
-      this.selected= [];
+      this.detallesVacunacion= [];
     }
   }
 }
