@@ -4,7 +4,10 @@
 
     <Container>
       <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5">
-        <!-- Iconos para especificar la vista -->
+        
+        <b-form @submit.prevent="registrarTrabajador">
+        <div id="#vista1" v-show="!Ocultar">
+          <!-- Iconos para especificar la vista -->
         <div class="d-flex justify-content-center align-items-center pb-3">
           <span class="icon-user-plus rounded-circle p-2 border border-primary text-primary"></span>
           <span class>---------</span>
@@ -12,12 +15,10 @@
           <span class>---------</span>
           <span class="icon-user-check rounded-circle p-2 border"></span>
         </div>
-        <div id="#vista1">
           <!-- Título del registro -->
           <h4 class="px-sm-5 text-center text-sm-left">Información del trabajador:</h4>
           <!-- Formulario -->
           <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-            <form>
               <div class="form-group">
                 <input type="text" v-model="nombres" class="form-control" id="nombres" placeholder="Nombres" required/>
               </div>
@@ -73,51 +74,49 @@
                   type="checkbox"
                   value="tipoTrabajador"
                   id="tipoTrabajador"
-                  required
                 />
                 <label
                   class="form-check-label"
                   for="tipoTrabajador"
                 >¿El trabajador se desempeña en el área de salud y seguridad en el trabajo?</label>
               </div>
-            </form>
           </div>
+          <b-button class="float-right" @click="Ocultar = !Ocultar" variant="primary">Siguiente</b-button>
         </div>
 
         <!-- Seleccion de vacunas -->
-        <div id="#vista2">
+        <div id="#vista2" v-show="Ocultar">
+
         <!-- Título del registro -->
         <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
 
-        <!-- Busqueda de vacuna -->
-        <div class="pb-1 px-0 px-sm-5 my-2">
-          <form class="form-inline">
-            <div class="input-group">
-              <input
-                class="form-control mr-2"
-                type="search"
-                placeholder="Nombre de la vacuna"
-                aria-label="Buscar vacuna por nombre"
-              />
-              <button class="btn btn-outline-primary my-0" type="submit">Buscar</button>
-            </div>
-          </form>
+          <!-- Iconos para especificar la vista -->
+        <div class="d-flex justify-content-center align-items-center pb-3">
+          <span class="icon-user-plus rounded-circle p-2 border"></span>
+          <span class>---------</span>
+          <span class="icon-aid-kit rounded-circle p-2 border border-primary text-primary" icon="angry"></span>
+          <span class>---------</span>
+          <span class="icon-user-check rounded-circle p-2 border"></span>
         </div>
 
         <!-- Lista de vacunas -->
         <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-            <b-form-group label="Using options array:">
+            <b-form-group>
               <b-form-checkbox-group
               id="checkbox-group-1"
               v-model="selected"
-              :options="Avacunas"
+              :options=[]
               name="flavour-1"
             ></b-form-checkbox-group>
             </b-form-group>
         </div>
         </div>
+        <!-- Botón Atras -->
+        <b-button  class="float-left" @click="Ocultar = !Ocultar" variant="primary" v-show="Ocultar">Atras</b-button>
+
         <!-- Botón Registrar -->
-        <button type="button" class="align-self-end btn btn-primary">Registrar</button>
+        <b-button  class="float-right" type="submit" variant="primary" v-show="Ocultar">Registrar</b-button>
+        </b-form>
       </div>
     </Container>
   </div>
@@ -126,6 +125,8 @@
 <script>
 import Container from '@/components/Container.vue'
 import Header from '@/components/Header.vue'
+import axios from 'axios'
+import router from '../router'
 
 export default {
   name: 'Trabajadores',
@@ -147,23 +148,61 @@ export default {
       fechaNacimiento: '',
       telefonoFamiliar: '',
       tipoTrabajador: '',
-      selected: '',
+      selected: [],
+      error: {},
+      Ocultar:false,
       options1: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
-        {value: 'n1', text: 'Nivel 1'},
-        {value: 'n2', text: 'Nivel 2'},
-        {value: 'n3', text: 'Nivel 3'},
-        {value: 'n4', text: 'Nivel 4'},
-        {value: 'n5', text: 'Nivel 5'}
+        {value: 'n1', text: 'I'},
+        {value: 'n2', text: 'II'},
+        {value: 'n3', text: 'III'},
+        {value: 'n4', text: 'IV'},
+        {value: 'n5', text: 'V'}
       ],
       options2: [
         {value: null, text: 'Seleccionar tipo de documento'},
         {value: 'cc', text: 'Cédula de ciudadanía'},
         {value: 'tp', text: 'Pasaporte'}
-      ],
-      Avacunas: [
-        {text: 'neumococo', value: 'a'}
       ]
+    }
+  },
+  methods: {
+    registrarTrabajador () {
+      axios.post('http://localhost:4000/empleados', {
+        nombres: this.nombres,
+        apellidos: this.apellidos,
+        direccion: this.direccion,
+        correo: this.correo,
+        tipoDocumento: this.tipoDocumento,
+        documento: this.documento,
+        telefono: this.telefono,
+        celular: this.celular,
+        nivelRiesgo: this.nivelRiesgo,
+        fechaNacimiento: this.fechaNacimiento,
+        telefonoFamiliar: this.telefonoFamiliar,
+        tipoTrabajador: this.tipoTrabajador,
+        detallesVacunacion: this.selected
+      }).then(res => {
+        this.error = res.data;
+
+        console.log(res.data)
+      }).catch(err => {
+
+        console.log(err)
+      });
+      this.nombres= '';
+      this.apellidos= '';
+      this.direccion= '';
+      this.correo= '';
+      this.tipoDocumento= null;
+      this.documento= '';
+      this.telefono= '';
+      this.celular= null;
+      this.nivelRiesgo= null;
+      this.fechaNacimiento= '';
+      this.telefonoFamiliar= '';
+      this.tipoTrabajador= '';
+      this.selected= [];
     }
   }
 }
