@@ -20,10 +20,10 @@
           <!-- Formulario -->
           <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
               <div class="form-group">
-                <input type="text" v-model="nombres" class="form-control" id="nombres" placeholder="Nombres" required/>
+                <input type="text" v-model="nombres" class="form-control" pattern="[A-Za-z_ ]{3,}" id="nombres" placeholder="Nombres" required/>
               </div>
               <div class="form-group">
-                <input type="text" v-model="apellidos" class="form-control" id="apellidos" placeholder="Apellidos" required/>
+                <input type="text" v-model="apellidos" class="form-control" pattern="[A-Za-z_ ]{3,}" id="apellidos" placeholder="Apellidos" required/>
               </div>
               <div class="form-group">
                 <input
