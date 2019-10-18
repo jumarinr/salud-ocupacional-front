@@ -15,6 +15,9 @@
           <span class>---------</span>
           <span class="icon-user-check rounded-circle p-2 border"></span>
         </div>
+        <div v-if="error.error === false">
+          <div class="alert alert-success">Usuario fue registrado</div>
+        </div>
           <!-- Título del registro -->
           <h4 class="px-sm-5 text-center text-sm-left">Información del trabajador:</h4>
           <!-- Formulario -->
@@ -110,12 +113,19 @@
             ></b-form-checkbox-group>
             </b-form-group>
         </div>
+        <div v-if="nombres === '' || apellidos === '' || direccion === '' || correo === '' ||
+        tipoDocumento === null || documento === '' || telefono === '' || nivelRiesgo === null ||
+        fechaNacimiento === '' || telefonoFamiliar === ''">
+            <div class="alert alert-danger">Campos vacios</div>
+        </div>
         </div>
         <!-- Botón Atras -->
         <b-button  class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
 
         <!-- Botón Registrar -->
-        <b-button  class="float-right" type="submit" variant="primary" v-show="ocultar">Registrar</b-button>
+        <b-button  class="float-right" type="submit" variant="primary" v-if="ocultar && !(nombres === '' || apellidos === '' ||
+        direccion === '' || correo === '' || tipoDocumento === null || documento === '' || telefono === '' || nivelRiesgo === null ||
+        fechaNacimiento === '' || telefonoFamiliar === '')">Registrar</b-button>
         </b-form>
       </div>
     </Container>
@@ -203,6 +213,7 @@ export default {
       this.telefonoFamiliar= '';
       this.tipoTrabajador= '';
       this.detallesVacunacion= [];
+      this.ocultar=!this.ocultar;
     }
   }
 }
