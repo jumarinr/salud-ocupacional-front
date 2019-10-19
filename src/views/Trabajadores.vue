@@ -15,8 +15,11 @@
           <span class>---------</span>
           <span class="icon-user-check rounded-circle p-2 border"></span>
         </div>
-        <div v-if="error.error === false">
+        <div v-if="error === false">
           <div class="alert alert-success">Usuario fue registrado</div>
+        </div>
+        <div v-if="error === true">
+          <div class="alert alert-danger">Usuario no fue registrado</div>
         </div>
           <!-- Título del registro -->
           <h4 class="px-sm-5 text-center text-sm-left">Información del trabajador:</h4>
@@ -193,11 +196,11 @@ export default {
         tipoTrabajador: this.tipoTrabajador,
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
-        this.error = res.data;
+        this.error = res.data.error;
 
         console.log(res.data)
       }).catch(err => {
-
+        
         console.log(err)
       });
       this.nombres= '';
