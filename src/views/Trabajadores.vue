@@ -4,16 +4,18 @@
 
     <Container>
       <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5">
-        
+
         <b-form @submit.prevent="registrarTrabajador">
         <div id="#vista1" v-show="!ocultar">
           <!-- Iconos para especificar la vista -->
-        <div class="d-flex justify-content-center align-items-center pb-3">
-          <span class="icon-user-plus rounded-circle p-2 border border-primary text-primary"></span>
+        <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+          <span class="rounded-circle border border-primary text-primary stepper-item">
+            <i class="fas fa-user-plus"></i>
+          </span>
           <span class>---------</span>
-          <span class="icon-aid-kit rounded-circle p-2 border" icon="angry"></span>
-          <span class>---------</span>
-          <span class="icon-user-check rounded-circle p-2 border"></span>
+          <span class="rounded-circle border stepper-item">
+            <i class="fas fa-medkit"></i>
+          </span>
         </div>
         <div v-if="error === false">
           <div class="alert alert-success">Empleado fue registrado</div>
@@ -100,13 +102,15 @@
         <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
 
           <!-- Iconos para especificar la vista -->
-        <div class="d-flex justify-content-center align-items-center pb-3">
-          <span class="icon-user-plus rounded-circle p-2 border"></span>
-          <span class>---------</span>
-          <span class="icon-aid-kit rounded-circle p-2 border border-primary text-primary" icon="angry"></span>
-          <span class>---------</span>
-          <span class="icon-user-check rounded-circle p-2 border"></span>
-        </div>
+          <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+            <span class="rounded-circle border stepper-item">
+              <i class="fas fa-user-plus"></i>
+            </span>
+            <span class>---------</span>
+            <span class="rounded-circle border border-primary text-primary stepper-item">
+              <i class="fas fa-medkit"></i>
+            </span>
+          </div>
 
         <!-- Lista de vacunas -->
         <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
@@ -197,7 +201,7 @@ export default {
 
         console.log(res.data)
       }).catch(err => {
-        
+
         console.log(err)
       });
       this.nombres= '';
@@ -217,7 +221,7 @@ export default {
       this.mostrarCamposVacios=false;
     },
     camposVacios () {
-      if([this.nombres, this.apellidos, this.direccion, this.correo, this.tipoDocumento, this.documento, this.telefono, this.nivelRiesgo, 
+      if([this.nombres, this.apellidos, this.direccion, this.correo, this.tipoDocumento, this.documento, this.telefono, this.nivelRiesgo,
         this.fechaNacimiento, this.telefonoFamiliar].some(item => item === '')){
           this.mostrarCamposVacios=true;
         }else{
@@ -227,3 +231,13 @@ export default {
   }
 }
 </script>
+
+<style media="screen">
+  .stepper .stepper-item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
