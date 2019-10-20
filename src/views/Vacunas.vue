@@ -13,12 +13,18 @@
             <b-form-group>
                 <b-form-input v-model="nombre" type="text" id="nombre-vacuna" placeholder="Nombre" required />
             </b-form-group>
-            <b-form-group>
-                <b-form-input type="number" v-model="cantidadAplicar" id="cantidad-aplicacion" placeholder="Cantidad de veces a aplicar" required />
-            </b-form-group>
-            <b-form-group>
-                <b-form-input type="text" v-model="periodicidad" id="periodicidad" placeholder="Periodicidad" />
-            </b-form-group>
+            <div class="form-group row">
+              <div class="col-sm-11">
+                <b-form-input type="number" min="0" v-model="cantidadAplicar" id="cantidad-aplicacion" placeholder="Cantidad de veces a aplicar" required />
+              </div>
+              <label class="col-sm-1 col-form-label">Veces</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-11">
+                <b-form-input type="number" min="0" v-model="periodicidad" id="periodicidad" placeholder="Periodicidad" />
+              </div>
+              <label class="col-sm-1 col-form-label">Días</label>
+            </div>
             <b-form-group>
                 <b-form-input type="text" v-model="prestadorServicio" id="entidad-prestadora" placeholder="Entidad que brinda el servicio" />
             </b-form-group>
