@@ -15,15 +15,21 @@
           <span class>---------</span>
           <span class="icon-user-check rounded-circle p-2 border"></span>
         </div>
+        <div v-if="error === false">
+          <div class="alert alert-success">Empleado fue registrado</div>
+        </div>
+        <div v-if="error === true">
+          <div class="alert alert-danger">Empleado no fue registrado</div>
+        </div>
           <!-- Título del registro -->
           <h4 class="px-sm-5 text-center text-sm-left">Información del trabajador:</h4>
           <!-- Formulario -->
           <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
               <div class="form-group">
-                <input type="text" v-model="nombres" class="form-control" id="nombres" placeholder="Nombres" required/>
+                <input type="text" v-model="nombres" class="form-control" pattern="[A-Za-z_ ]{3,}" id="nombres" placeholder="Nombres" required/>
               </div>
               <div class="form-group">
-                <input type="text" v-model="apellidos" class="form-control" id="apellidos" placeholder="Apellidos" required/>
+                <input type="text" v-model="apellidos" class="form-control" pattern="[A-Za-z_ ]{3,}" id="apellidos" placeholder="Apellidos" required/>
               </div>
               <div class="form-group">
                 <input
@@ -80,8 +86,11 @@
                   for="tipoTrabajador"
                 >¿El trabajador se desempeña en el área de salud y seguridad en el trabajo?</label>
               </div>
+            <div v-if="mostrarCamposVacios">
+              <div class="alert alert-danger">Campos vacios</div>
+            </div>
           </div>
-          <b-button class="float-right" @click="ocultar = !ocultar" variant="primary">Siguiente</b-button>
+          <b-button class="float-right" @click="camposVacios()" variant="primary">Siguiente</b-button>
         </div>
 
         <!-- Seleccion de vacunas -->
@@ -115,7 +124,7 @@
         <b-button  class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
 
         <!-- Botón Registrar -->
-        <b-button  class="float-right" type="submit" variant="primary" v-show="ocultar">Registrar</b-button>
+        <b-button  class="float-right" type="submit" variant="primary" v-if="ocultar">Registrar</b-button>
         </b-form>
       </div>
     </Container>
@@ -151,6 +160,7 @@ export default {
       detallesVacunacion: [],
       error: {},
       ocultar:false,
+      mostrarCamposVacios:false,
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
         {value: 'n1', text: 'I'},
@@ -183,11 +193,11 @@ export default {
         tipoTrabajador: this.tipoTrabajador,
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
-        this.error = res.data;
+        this.error = res.data.error;
 
         console.log(res.data)
       }).catch(err => {
-
+        
         console.log(err)
       });
       this.nombres= '';
@@ -203,6 +213,16 @@ export default {
       this.telefonoFamiliar= '';
       this.tipoTrabajador= '';
       this.detallesVacunacion= [];
+      this.ocultar=!this.ocultar;
+      this.mostrarCamposVacios=false;
+    },
+    camposVacios () {
+      if([this.nombres, this.apellidos, this.direccion, this.correo, this.tipoDocumento, this.documento, this.telefono, this.nivelRiesgo, 
+        this.fechaNacimiento, this.telefonoFamiliar].some(item => item === '')){
+          this.mostrarCamposVacios=true;
+        }else{
+          this.ocultar=!this.ocultar;
+        }
     }
   }
 }
