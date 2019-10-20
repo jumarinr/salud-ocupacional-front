@@ -8,12 +8,12 @@
         <b-form @submit.prevent="registrarTrabajador">
         <div id="#vista1" v-show="!ocultar">
           <!-- Iconos para especificar la vista -->
-        <div class="d-flex justify-content-center align-items-center pb-3">
-          <span class="rounded-circle p-2 border border-primary text-primary">
+        <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+          <span class="rounded-circle border border-primary text-primary stepper-item">
             <i class="fas fa-user-plus"></i>
           </span>
           <span class>---------</span>
-          <span class="rounded-circle p-2 border">
+          <span class="rounded-circle border stepper-item">
             <i class="fas fa-medkit"></i>
           </span>
         </div>
@@ -102,12 +102,12 @@
         <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
 
           <!-- Iconos para especificar la vista -->
-          <div class="d-flex justify-content-center align-items-center pb-3">
-            <span class="rounded-circle p-2 border border-primary text-primary">
+          <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+            <span class="rounded-circle border border-primary text-primary stepper-item">
               <i class="fas fa-user-plus"></i>
             </span>
             <span class>---------</span>
-            <span class="rounded-circle p-2 border">
+            <span class="rounded-circle border stepper-item">
               <i class="fas fa-medkit"></i>
             </span>
           </div>
@@ -231,3 +231,13 @@ export default {
   }
 }
 </script>
+
+<style media="screen">
+  .stepper .stepper-item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
