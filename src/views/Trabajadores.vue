@@ -124,7 +124,7 @@
         <b-button  class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
 
         <!-- Botón Registrar -->
-        <b-button  class="float-right" type="submit" variant="primary">Registrar</b-button>
+        <b-button  class="float-right" type="submit" variant="primary" v-if="ocultar">Registrar</b-button>
         </b-form>
       </div>
     </Container>
