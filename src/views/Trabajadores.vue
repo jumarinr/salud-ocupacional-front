@@ -103,11 +103,11 @@
 
           <!-- Iconos para especificar la vista -->
           <div class="d-flex justify-content-center align-items-center pb-3 stepper">
-            <span class="rounded-circle border border-primary text-primary stepper-item">
+            <span class="rounded-circle border stepper-item">
               <i class="fas fa-user-plus"></i>
             </span>
             <span class>---------</span>
-            <span class="rounded-circle border stepper-item">
+            <span class="rounded-circle border border-primary text-primary stepper-item">
               <i class="fas fa-medkit"></i>
             </span>
           </div>
