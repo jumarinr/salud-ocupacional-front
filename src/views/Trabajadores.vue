@@ -4,7 +4,7 @@
 
     <Container>
       <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5">
-        
+
         <b-form @submit.prevent="registrarTrabajador">
         <div id="#vista1" v-show="!ocultar">
           <!-- Iconos para especificar la vista -->
@@ -197,7 +197,7 @@ export default {
 
         console.log(res.data)
       }).catch(err => {
-        
+
         console.log(err)
       });
       this.nombres= '';
@@ -217,7 +217,7 @@ export default {
       this.mostrarCamposVacios=false;
     },
     camposVacios () {
-      if([this.nombres, this.apellidos, this.direccion, this.correo, this.tipoDocumento, this.documento, this.telefono, this.nivelRiesgo, 
+      if([this.nombres, this.apellidos, this.direccion, this.correo, this.tipoDocumento, this.documento, this.telefono, this.nivelRiesgo,
         this.fechaNacimiento, this.telefonoFamiliar].some(item => item === '')){
           this.mostrarCamposVacios=true;
         }else{
