@@ -195,3 +195,13 @@ export default {
   }
 }
 </script>
+
+<style media="screen">
+  .stepper .stepper-item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

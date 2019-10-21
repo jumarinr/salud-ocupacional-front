@@ -11,9 +11,18 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav pills class="ml-auto">
           <!-- <b-nav-item>'s with child routes. Note the trailing slash on the first <b-nav-item> -->
-          <b-nav-item to="/trabajadores" exact exact-active-class="active">Registrar trabajadores</b-nav-item>
-          <b-nav-item to="/vacunas" exact exact-active-class="active">Registrar vacunas</b-nav-item>
-          <b-nav-item to="/logout" exact exact-active-class="active">Cerrar sesión</b-nav-item>
+          <b-nav-item to="/trabajadores" exact exact-active-class="active">
+            <i class="fas fa-user-friends"></i>
+            Registrar trabajadores
+          </b-nav-item>
+          <b-nav-item to="/vacunas" exact exact-active-class="active">
+            <i class="fas fa-medkit"></i>
+            Registrar vacunas
+          </b-nav-item>
+          <b-nav-item to="/logout" exact exact-active-class="active">
+            <i class="fas fa-icon-exit"></i>
+            Cerrar sesión
+          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
