@@ -14,8 +14,12 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav pills class="ml-auto">
           <!-- INICIO ITEMS DEL MENU -->
+          <b-nav-item to="/trabajadores" exact exact-active-class="active">
+            <i class="fas fa-users"></i>
+            Ver trabajadores
+          </b-nav-item>
           <b-nav-item to="/registrarTrabajador" exact exact-active-class="active">
-            <i class="fas fa-user-friends"></i>
+            <i class="fas fa-user-plus"></i>
             Registrar trabajadores
           </b-nav-item>
           <b-nav-item to="/registrarVacuna" exact exact-active-class="active">

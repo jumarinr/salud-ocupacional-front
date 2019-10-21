@@ -58,7 +58,7 @@ export default {
        this.error = res.data.error;
        this.correo = ''
        this.contrasena = ''       
-       this.$router.push('/trabajadores')
+       this.$router.push('/home')
        }
      }).catch(err => {
        // eslint-disable-next-line
