@@ -1,5 +1,5 @@
 <template>
-  <div id="listaTrabajadores">
+  <div>
     <!-- HEADER -->
     <Header />
 
