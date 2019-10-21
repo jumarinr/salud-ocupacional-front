@@ -1,26 +1,31 @@
 <template>
- <div class="login">
-   <div class="d-flex flex-column align-items-center bg-light px-5 py-4 rounded container w-50 bg-white">
+ <div class="justify-content-center align-items-center">
+   <div class="d-flex flex-column align-items-center px-5 py-4 rounded bg-white bg-light">
+     
      <!-- Logo de la empresa -->
      <b-media>
         <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
      </b-media>
+     
      <!-- Título de inicio de sesión -->
      <h4 class="px-sm-5 text-center text-sm-left">Inicio de sesión</h4>
 
      <!-- Formulario para inicio de sesión -->
-     <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-       <b-form @submit.prevent="login" class="my-3">
+     <div class="py-2 px-0 px-sm-5 my-2">
+       <b-form @submit.prevent="login" class="d-flex flex-column align-items-center my-3">
+         <!-- Input de usuario -->
          <b-form-group>
            <input v-model="correo" type="email" id="correo" class="form-control"  placeholder="Ingresar email" required>
          </b-form-group>
+         <!-- Input de contraseña -->
          <b-form-group>
-           <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar Contraseña" required>
-         </b-form-group>         
+           <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar contraseña" required>
+         </b-form-group>   
+         <!-- Alerta -->
          <div v-if="error === true">
               <div class="alert alert-danger">Usuario y/o contraseña no encontrado</div>
           </div>
-         <!-- Botón Registrar -->
+         <!-- Botón Iniciar Sesión -->
          <b-button class="btn btn-primary" type="submit" variant="primary">Iniciar sesión</b-button>
        </b-form>
      </div>
@@ -64,9 +69,3 @@ export default {
 
 }
 </script>
-
-<style media="screen">
-  .login .container {
-    margin-top: 25vh;
-  }
-</style>

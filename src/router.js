@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Vacunas from './views/Vacunas'
 import Login from './views/Login'
-import Trabajadores from './views/Trabajadores'
+import RegistrarTrabajador from './views/RegistrarTrabajador'
+import RegistrarVacuna from './views/RegistrarVacuna'
 
 Vue.use(Router)
 
@@ -17,14 +17,14 @@ export default new Router({
     component: Login
   },
   {
-    path: '/vacunas',
-    name: 'Vacunas',
-    component: Vacunas
+    path: '/registrarVacuna',
+    name: 'RegistrarVacuna',
+    component: RegistrarVacuna
   },
   {
-    path: '/trabajadores',
-    name: 'Trabajadores',
-    component: Trabajadores
+    path: '/registrarTrabajador',
+    name: 'RegistrarTrabajador',
+    component: RegistrarTrabajador
   }
 ]
 })
