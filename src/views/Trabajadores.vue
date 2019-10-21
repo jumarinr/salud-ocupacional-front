@@ -7,12 +7,14 @@
         <b-form @submit.prevent="camposVacios" id="form-paso1">
           <div id="#vista1" v-show="!ocultar">
             <!-- Iconos para especificar la vista -->
-            <div class="d-flex justify-content-center align-items-center pb-3">
-              <span class="icon-user-plus rounded-circle p-2 border border-primary text-primary"></span>
+            <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+              <span class="rounded-circle border border-primary text-primary stepper-item">
+                <i class="fas fa-user-plus"></i>
+              </span>
               <span class>---------</span>
-              <span class="icon-aid-kit rounded-circle p-2 border" icon="angry"></span>
-              <span class>---------</span>
-              <span class="icon-user-check rounded-circle p-2 border"></span>
+              <span class="rounded-circle border stepper-item">
+                <i class="fas fa-medkit"></i>
+              </span>
             </div>
             <div v-if="error === false">
               <div class="alert alert-success">Empleado fue registrado</div>
@@ -76,12 +78,14 @@
             <!-- Título del registro -->
             <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
             <!-- Iconos para especificar la vista -->
-            <div class="d-flex justify-content-center align-items-center pb-3">
-              <span class="icon-user-plus rounded-circle p-2 border"></span>
+            <div class="d-flex justify-content-center align-items-center pb-3 stepper">
+              <span class="rounded-circle border stepper-item">
+                <i class="fas fa-user-plus"></i>
+              </span>
               <span class>---------</span>
-              <span class="icon-aid-kit rounded-circle p-2 border border-primary text-primary" icon="angry"></span>
-              <span class>---------</span>
-              <span class="icon-user-check rounded-circle p-2 border"></span>
+              <span class="rounded-circle border border-primary text-primary stepper-item">
+                <i class="fas fa-medkit"></i>
+              </span>
             </div>
             <!-- Lista de vacunas -->
             <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
