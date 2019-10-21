@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Login from './views/Login'
 import RegistrarTrabajador from './views/RegistrarTrabajador'
+import EditarTrabajador from './views/EditarTrabajador'
 import RegistrarVacuna from './views/RegistrarVacuna'
 import Trabajadores from './views/Trabajadores'
 import VerTrabajador from './views/VerTrabajador'
@@ -38,6 +39,11 @@ export default new Router({
     path: '/verTrabajador',
     name: 'VerTrabajador',
     component: VerTrabajador
+  },
+  {
+    path: '/editarTrabajador',
+    name: 'EditarTrabajador',
+    component: EditarTrabajador
   },
   {
     path: '/home',

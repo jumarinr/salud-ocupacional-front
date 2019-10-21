@@ -32,7 +32,7 @@
               <b-td stacked-heading="Celular:">300 000 0000</b-td>
               <b-td stacked-heading="Nivel de riesgo:">V</b-td>
               <b-td stacked-heading="Fecha de nacimiento:">05/02/2001</b-td>
-              <b-td stacked-heading="Número de emergencia:">301 001 0101</b-td>
+              <b-td stacked-heading="Télefono de un familiar:">301 001 0101</b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
