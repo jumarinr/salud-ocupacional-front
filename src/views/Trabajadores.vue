@@ -34,7 +34,7 @@
                 <input type="text" v-model="direccion" class="form-control" id="direccion" placeholder="Dirección actual" required />
                 </div>
                 <div class="form-group">
-                <input type="text" v-model="correo" class="form-control" pattern="[a-z0-9_ñ._%+-]+@[a-z0-9_ñ.-]+\.[a-z]{2,}$" id="correo" placeholder="Correo" required/>
+                <input type="email" v-model="correo" class="form-control" id="correo" placeholder="Correo" required/>
                 </div>
               <div class="form-group">
                 <b-form-select v-model="tipoDocumento" :options="opcionesTipoDoc" required></b-form-select>
