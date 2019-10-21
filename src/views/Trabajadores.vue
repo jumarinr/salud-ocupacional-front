@@ -5,6 +5,19 @@
 
     <Container>
       <div class="w-100 d-flex flex-column align-items-center p-3">
+
+        <div class="w-100">
+          <!-- Botón Registrar -->
+          <b-button to="/registrarTrabajador" class="my-3 float-left" variant="primary">
+            Registrar Trabajador
+          </b-button>
+          
+          <!-- Buscador -->
+          <div class="my-3 float-right">
+            <input class="form-control" type="text" placeholder="Buscar" aria-label="Buscar"/>
+          </div>
+        </div>
+        
         <!-- Tabla donde se muestran los datos de los empleados -->
         <b-table
             class="align-self-stretch shadow border text-center"
@@ -13,7 +26,6 @@
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           sort-icon-center
-          responsive="sm"
         >
         </b-table>
 
