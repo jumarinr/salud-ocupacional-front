@@ -1,11 +1,12 @@
 <template>
-  <div class="vacunas">
+  <div>
+    <!-- HEADER -->
     <Header />
 
     <Container>
-      <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5">
+      <div class="col d-flex flex-column justify-content-between py-2 px-1 px-sm-5 m-09">
         <!-- Título del registro -->
-        <h4 class="px-sm-5 text-center text-sm-left">Registro de vacunas:</h4>
+        <h4 class="px-sm-5 text-center text-sm-left">Registro de vacunas</h4>
 
         <!-- Formulario -->
         <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
@@ -43,22 +44,24 @@
         </div>
       </div>
     </Container>
+
+    <!-- FOOTER -->
+    <Footer />
   </div>
 </template>
 
 <script>
-
 import axios from 'axios';
-
-// @ is an alias to /src
-import Container from '@/components/Container.vue'
 import Header from '@/components/Header.vue'
+import Container from '@/components/Container.vue'
+import Footer from '@/components/Footer.vue'
 
 export default {
-  name: 'Vacunas',
+  name: 'RegistrarVacuna',
   components: {
+    Header,
     Container,
-    Header
+    Footer
   },
   data (){
       return {
@@ -108,8 +111,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

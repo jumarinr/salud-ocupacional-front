@@ -1,28 +1,36 @@
 <template>
   <header>
-    <b-navbar toggleable="lg" sticky>
-      <b-navbar-brand href="#">
+    <b-navbar toggleable="lg" class="fixed-top bg-white">
+      <!-- LOGO + NOMBRE DE LA EMPRESA -->
+      <b-navbar-brand to="/home">
         <img src="@/assets/logo.png" height="30" alt="Logo"/>
         Salud ocupacional
       </b-navbar-brand>
 
+      <!-- BOTÓN PARA DESPLEGAR EL MENU -->
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
+      <!-- MENU -->
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav pills class="ml-auto">
-          <!-- <b-nav-item>'s with child routes. Note the trailing slash on the first <b-nav-item> -->
+          <!-- INICIO ITEMS DEL MENU -->
           <b-nav-item to="/trabajadores" exact exact-active-class="active">
-            <i class="fas fa-user-friends"></i>
+            <i class="fas fa-users"></i>
+            Ver trabajadores
+          </b-nav-item>
+          <b-nav-item to="/trabajadores/registrar" exact exact-active-class="active">
+            <i class="fas fa-user-plus"></i>
             Registrar trabajadores
           </b-nav-item>
-          <b-nav-item to="/vacunas" exact exact-active-class="active">
+          <b-nav-item to="/vacunas/registrar" exact exact-active-class="active">
             <i class="fas fa-medkit"></i>
             Registrar vacunas
           </b-nav-item>
-          <b-nav-item to="/logout" exact exact-active-class="active">
-            <i class="fas fa-icon-exit"></i>
+          <b-nav-item to="/" exact exact-active-class="active">
+            <i class="fas fa-sign-out-alt"></i>
             Cerrar sesión
           </b-nav-item>
+          <!-- FIN ITEMS DEL MENU -->
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -34,10 +42,3 @@ export default {
   name: 'Header'
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.navbar {
-  background-color: #fff;
-}
-</style>
