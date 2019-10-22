@@ -103,9 +103,12 @@
 
             <!-- Lista de vacunas -->
             <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-              <!-- <b-form-group>
-                <b-form-checkbox-group id="checkbox-group-1" v-model="detallesVacunacion" :options=[] name="flavour-1"></b-form-checkbox-group>
-                </b-form-group> -->
+              <b-form-group>
+                <b-form-checkbox-group id="checkbox-group-2" v-model="detallesVacunacion" name="SeleccionarVacunas" v-for="vacuna in listaVacunas" :key="vacuna._id">
+                  <b-form-checkbox :value= vacuna._id  >{{ vacuna.nombre }}</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
+              <h1>{{detallesVacunacion}}</h1>
             </div>
           </div>
           
@@ -152,8 +155,9 @@ export default {
       tipoTrabajador: '',
       detallesVacunacion: [],
       error: {},
-      ocultar:false,
+      ocultar:true,
       mostrarCamposVacios:false,
+      listaVacunas:[],
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
         {value: 'n1', text: 'I'},
@@ -205,6 +209,7 @@ export default {
       this.fechaNacimiento= '';
       this.telefonoFamiliar= '';
       this.tipoTrabajador= '';
+      console.log(this.detallesVacunacion);
       this.detallesVacunacion= [];
       this.ocultar=!this.ocultar;
       this.mostrarCamposVacios=false;
@@ -217,6 +222,14 @@ export default {
           this.ocultar=!this.ocultar;
         }
     }
+  },
+  created: function () {
+    axios.get('http://localhost:4000/vacunas')
+    .then(res => {
+      this.listaVacunas=res.data.datos;
+
+      console.log(this.listaVacunas)
+    })
   }
 }
 </script>
