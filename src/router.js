@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from './views/Login'
-import RegistrarTrabajador from './views/RegistrarTrabajador'
-import EditarTrabajador from './views/EditarTrabajador'
+import FormularioTrabajador from './views/FormularioTrabajador'
 import RegistrarVacuna from './views/RegistrarVacuna'
 import Trabajadores from './views/Trabajadores'
 import VerTrabajador from './views/VerTrabajador'
@@ -21,14 +20,19 @@ export default new Router({
     component: Login
   },
   {
-    path: '/registrarVacuna',
+    path: '/vacunas/registrar',
     name: 'RegistrarVacuna',
     component: RegistrarVacuna
   },
   {
-    path: '/registrarTrabajador',
-    name: 'RegistrarTrabajador',
-    component: RegistrarTrabajador
+    path: '/trabajadores/registrar',
+    name: 'FormularioTrabajador',
+    component: FormularioTrabajador
+  },
+  {
+    path: '/trabajadores/editar/:idTrabajador',
+    name: 'FormularioTrabajador',
+    component: FormularioTrabajador
   },
   {
     path: '/trabajadores',
@@ -36,14 +40,9 @@ export default new Router({
     component: Trabajadores
   },
   {
-    path: '/verTrabajador',
+    path: '/trabajadores/ver/:idTrabajador',
     name: 'VerTrabajador',
     component: VerTrabajador
-  },
-  {
-    path: '/editarTrabajador',
-    name: 'EditarTrabajador',
-    component: EditarTrabajador
   },
   {
     path: '/home',
