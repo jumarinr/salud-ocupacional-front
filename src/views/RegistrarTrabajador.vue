@@ -108,7 +108,6 @@
                   <b-form-checkbox :value= vacuna._id  >{{ vacuna.nombre }}</b-form-checkbox>
                 </b-form-checkbox-group>
               </b-form-group>
-              <h1>{{detallesVacunacion}}</h1>
             </div>
           </div>
           
@@ -155,7 +154,7 @@ export default {
       tipoTrabajador: '',
       detallesVacunacion: [],
       error: {},
-      ocultar:true,
+      ocultar:false,
       mostrarCamposVacios:false,
       listaVacunas:[],
       opcionesRiesgo: [
@@ -191,8 +190,6 @@ export default {
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
         this.error = res.data.error;
-
-        console.log(res.data)
       }).catch(err => {
 
         console.log(err)
@@ -209,7 +206,6 @@ export default {
       this.fechaNacimiento= '';
       this.telefonoFamiliar= '';
       this.tipoTrabajador= '';
-      console.log(this.detallesVacunacion);
       this.detallesVacunacion= [];
       this.ocultar=!this.ocultar;
       this.mostrarCamposVacios=false;
@@ -227,8 +223,6 @@ export default {
     axios.get('http://localhost:4000/vacunas')
     .then(res => {
       this.listaVacunas=res.data.datos;
-
-      console.log(this.listaVacunas)
     })
   }
 }
