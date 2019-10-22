@@ -9,29 +9,19 @@
         <b-form @submit.prevent="camposVacios" id="form-paso1">
           <div id="#vista1" v-show="!ocultar">
             <!-- Iconos para especificar la vista -->
-            <div class="d-flex justify-content-center align-items-center pb-3 stepper">
-              <!-- Iconos de añadir empleado -->
-              <span class="rounded-circle border stepper-item border-primary text-primary">
-                <i class="fas fa-user-plus"></i>
-              </span>
-              <span class>-------------</span>
-              <!-- Iconos de añadir vacunas -->
-              <span class="rounded-circle border stepper-item">
-                <i class="fas fa-medkit"></i>
-              </span>
-            </div>
+            <Stepper paso="1" />
 
             <!-- Alertas -->
             <div v-if="error === false">
-              <div class="alert alert-success">Empleado fue editado</div>
+              <div class="alert alert-success">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
             </div>
             <div v-if="error === true">
-              <div class="alert alert-danger">Empleado no fue editado</div>
+              <div class="alert alert-danger">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
             </div>
 
             <!-- Título del registro -->
-            <h4 class="px-sm-5 text-center text-sm-left">Edición de trabajador</h4>
-            
+            <h4 class="px-sm-5 text-center text-sm-left">{{ modoEdicion ? 'Edición' : 'Registro'}} de trabajador</h4>
+
             <!-- Formulario -->
             <div class="py-2 px-0 px-sm-5 my-2">
               <div class="form-group">
@@ -86,34 +76,26 @@
         <b-form @submit.prevent="registrarTrabajador">
           <div id="#vista2" v-show="ocultar">
             <!-- Iconos para especificar la vista -->
-            <div class="d-flex justify-content-center align-items-center pb-3 stepper">
-              <!-- Iconos de añadir empleado -->
-              <span class="rounded-circle border stepper-item">
-                <i class="fas fa-user-plus"></i>
-              </span>
-              <span class>-------------</span>
-              <!-- Iconos de añadir vacunas -->
-              <span class="rounded-circle border stepper-item border-primary text-primary">
-                <i class="fas fa-medkit"></i>
-              </span>
-            </div>
+            <Stepper paso="2" />
 
             <!-- Título del registro -->
             <h4 class="px-sm-5 pb-2 text-center text-sm-left">Listado de vacunas</h4>
 
             <!-- Lista de vacunas -->
             <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-              <!-- <b-form-group>
-                <b-form-checkbox-group id="checkbox-group-1" v-model="detallesVacunacion" :options=[] name="flavour-1"></b-form-checkbox-group>
-                </b-form-group> -->
+              <b-form-group>
+                <b-form-checkbox-group id="checkbox-group-2" v-model="detallesVacunacion" name="SeleccionarVacunas" v-for="vacuna in listaVacunas" :key="vacuna._id">
+                  <b-form-checkbox :value= vacuna._id  >{{ vacuna.nombre }}</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
             </div>
           </div>
-          
+
           <!-- Botón Atras -->
           <b-button class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
-          
-          <!-- Botón Editar -->
-          <b-button class="float-right" type="submit" variant="primary" v-if="ocultar">Editar</b-button>
+
+          <!-- Botón Registrar -->
+          <b-button class="float-right" type="submit" variant="primary" v-if="ocultar">{{ modoEdicion ? 'Editar' : 'Registrar'}}</b-button>
         </b-form>
       </div>
     </Container>
@@ -128,32 +110,36 @@ import axios from 'axios'
 import Header from '@/components/Header.vue'
 import Container from '@/components/Container.vue'
 import Footer from '@/components/Footer.vue'
+import Stepper from '@/components/Stepper.vue'
 
 export default {
-  name: 'EditarTrabajador',
+  name: 'RegistrarTrabajador',
   components: {
     Header,
     Container,
-    Footer
+    Footer,
+    Stepper
   },
   data () {
     return {
-      nombres: 'Armando',
-      apellidos: 'Paredes Rojas',
-      direccion: 'Carrera 67 #39d - 103',
-      correo: 'arojasp@gmail.com',
-      tipoDocumento: 'cc',
-      documento: '123456789',
-      telefono: '444 44 44',
-      celular: '300 000 0000',
-      nivelRiesgo: 'n3',
-      fechaNacimiento: '2001-05-02',
-      telefonoFamiliar: '301 001 0101',
+      modoEdicion: !!this.$route.params.idTrabajador,
+      nombres: '',
+      apellidos: '',
+      direccion: '',
+      correo: '',
+      tipoDocumento: null,
+      documento: '',
+      telefono: '',
+      celular: null,
+      nivelRiesgo: null,
+      fechaNacimiento: '',
+      telefonoFamiliar: '',
       tipoTrabajador: '',
       detallesVacunacion: [],
       error: {},
       ocultar:false,
       mostrarCamposVacios:false,
+      listaVacunas:[],
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
         {value: 'n1', text: 'I'},
@@ -170,8 +156,8 @@ export default {
     }
   },
   methods: {
-    // Aqui debería llamarse editarTrabajador()
     registrarTrabajador () {
+      // TODO: Hacer la lógica correspondiente para el editar
       axios.post('http://localhost:4000/empleados', {
         nombres: this.nombres,
         apellidos: this.apellidos,
@@ -188,8 +174,6 @@ export default {
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
         this.error = res.data.error;
-
-        console.log(res.data)
       }).catch(err => {
 
         console.log(err)
@@ -218,16 +202,12 @@ export default {
           this.ocultar=!this.ocultar;
         }
     }
+  },
+  created: function () {
+    axios.get('http://localhost:4000/vacunas')
+    .then(res => {
+      this.listaVacunas=res.data.datos;
+    })
   }
 }
 </script>
-
-<style media="screen">
-  .stepper .stepper-item {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-</style>
