@@ -68,7 +68,7 @@
             </div>
 
             <!-- Botón Siguiente -->
-            <b-button type="submit" class="float-right" variant="primary">Siguiente</b-button>
+            <b-button type="submit" class="float-right mr-sm-5" variant="primary">Siguiente</b-button>
           </div>
         </b-form>
 
@@ -90,10 +90,10 @@
           </div>
 
           <!-- Botón Atras -->
-          <b-button class="float-left" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
+          <b-button class="float-left ml-sm-5" @click="ocultar = !ocultar" variant="primary" v-show="ocultar">Atras</b-button>
 
           <!-- Botón Registrar -->
-          <b-button class="float-right" type="submit" variant="primary" v-if="ocultar">{{ modoEdicion ? 'Editar' : 'Registrar'}}</b-button>
+          <b-button class="float-right mr-sm-5" type="submit" variant="primary" v-if="ocultar">{{ modoEdicion ? 'Editar' : 'Registrar'}}</b-button>
         </b-form>
       </div>
     </Container>
