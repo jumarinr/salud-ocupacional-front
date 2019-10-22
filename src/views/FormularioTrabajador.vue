@@ -83,9 +83,12 @@
 
             <!-- Lista de vacunas -->
             <div class="flex-grow-1 overflow-auto py-2 px-0 px-sm-5 my-2">
-              <!-- <b-form-group>
-                <b-form-checkbox-group id="checkbox-group-1" v-model="detallesVacunacion" :options=[] name="flavour-1"></b-form-checkbox-group>
-                </b-form-group> -->
+              <b-form-group>
+                <b-form-checkbox-group
+                  id="checkbox-group-2" v-model="detallesVacunacion" name="seleccionarVacunas" v-for="vacuna in listaVacunas" :key="vacuna._id">
+                  <b-form-checkbox :value="vacuna._id">{{ vacuna.nombre }}</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
             </div>
           </div>
 
@@ -137,6 +140,7 @@ export default {
       error: {},
       ocultar:false,
       mostrarCamposVacios:false,
+      listaVacunas:[],
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
         {value: 'n1', text: 'I'},
@@ -171,8 +175,6 @@ export default {
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
         this.error = res.data.error;
-
-        console.log(res.data)
       }).catch(err => {
 
         console.log(err)
@@ -201,6 +203,12 @@ export default {
           this.ocultar=!this.ocultar;
         }
     }
+  },
+  created: function () {
+    axios.get('http://localhost:4000/vacunas')
+    .then(res => {
+      this.listaVacunas = res.data.datos;
+    })
   }
 }
 </script>

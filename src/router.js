@@ -26,12 +26,12 @@ export default new Router({
   },
   {
     path: '/trabajadores/registrar',
-    name: 'FormularioTrabajador',
+    name: 'RegistrarTrabajador',
     component: FormularioTrabajador
   },
   {
     path: '/trabajadores/editar/:idTrabajador',
-    name: 'FormularioTrabajador',
+    name: 'EditarTrabajador',
     component: FormularioTrabajador
   },
   {
