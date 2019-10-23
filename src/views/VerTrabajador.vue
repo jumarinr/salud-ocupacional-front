@@ -25,14 +25,14 @@
 
           <b-tbody>
             <b-tr class="text-center">
-              <b-td stacked-heading="Identificación:">123456789</b-td>
-              <b-td stacked-heading="Dirección actual:">Carrera 67 #39d - 103</b-td>
-              <b-td stacked-heading="Correo:">arojasp@gmail.com</b-td>
-              <b-td stacked-heading="Teléfono:">444 44 44</b-td>
-              <b-td stacked-heading="Celular:">300 000 0000</b-td>
-              <b-td stacked-heading="Nivel de riesgo:">V</b-td>
-              <b-td stacked-heading="Fecha de nacimiento:">05/02/2001</b-td>
-              <b-td stacked-heading="Télefono de un familiar:">301 001 0101</b-td>
+              <b-td stacked-heading="Identificación:">{{this.trabajador.identificacion}}</b-td>
+              <b-td stacked-heading="Dirección actual:">{{this.trabajador.direccion}}</b-td>
+              <b-td stacked-heading="Correo:">{{this.trabajador.correo}}</b-td>
+              <b-td stacked-heading="Teléfono:">{{this.trabajador.telefono}}</b-td>
+              <b-td stacked-heading="Celular:">{{this.trabajador.celular}}</b-td>
+              <b-td stacked-heading="Nivel de riesgo:">//</b-td>
+              <b-td stacked-heading="Fecha de nacimiento:">{{this.trabajador.fechaNacimiento}}</b-td>
+              <b-td stacked-heading="Télefono de un familiar:">{{this.trabajador.contactoAllegado}}</b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
@@ -65,6 +65,8 @@ export default {
   },
   data() {
       return {
+        idTrabajador: this.$route.params.idTrabajador,
+        trabajador: {},
         camposVacunas: ['nombre', 'cantidad_aplicada', 'proxima_fecha_de_aplicacion'],
         vacunas: [
           { nombre: 'vacuna 1', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
@@ -74,6 +76,21 @@ export default {
           { nombre: 'vacuna 2', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
           { nombre: 'vacuna 3', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'}
         ]
+      }
+    },
+    created() {
+          this.obtenerDatosEmpleado();
+    }, 
+    methods: {
+      obtenerDatosEmpleado(){
+        axios.get('http://localhost:4000/empleados/' + this.idTrabajador)
+          .then(res => {
+            this.trabajador = res.data;
+            if (this.trabajador.celular == null) {
+              this.trabajador.celular = 'NO';
+            }
+            console.log(this.trabajador)
+          })
       }
     }
 };

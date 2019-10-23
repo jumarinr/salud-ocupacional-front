@@ -32,11 +32,11 @@
             <b-form-group>
                 <b-form-textarea id="descripcion" v-model="descripcion" placeholder="Descripción" rows="3" />
             </b-form-group>
-            <div v-if="error.status === false">
-                <div class="alert alert-danger">Esta vacuna ya se encuentra registrada</div>
+            <div v-if="error.error === false">
+                <div class="alert alert-success">{{error.mensaje}}</div>
             </div>
-            <div v-else-if="error.status === true">
-                <div class="alert alert-success">La vacuna se ha registrado correctamente</div>
+            <div v-else-if="error.error === true">
+                <div class="alert alert-danger">{{error.mensaje}}</div>
             </div>
             <!-- Botón Registrar -->
             <b-button class="float-right" type="submit" variant="primary">Registrar</b-button>
