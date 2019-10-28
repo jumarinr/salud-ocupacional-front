@@ -25,10 +25,10 @@
             <!-- Formulario -->
             <div class="py-2 px-0 px-sm-5 my-2">
               <div class="form-group">
-                <input type="text" v-model="nombres" class="form-control" pattern="[A-Za-z_ _ñ]{3,}" id="nombres" placeholder="Nombres" required/>
+                <input type="text" v-model="nombres" class="form-control" pattern="[A-Za-z_á_é_í_ó_ú_ñ_Á_É_Í_Ó_Ú_ ]{3,}" id="nombres" placeholder="Nombres" required/>
               </div>
               <div class="form-group">
-                <input type="text" v-model="apellidos" class="form-control" pattern="[A-Za-z_ _ñ]{3,}" id="apellidos" placeholder="Apellidos" required/>
+                <input type="text" v-model="apellidos" class="form-control" pattern="[A-Za-z_á_é_í_ó_ú_ñ_Á_É_Í_Ó_Ú_ ]{3,}" id="apellidos" placeholder="Apellidos" required/>
               </div>
               <div class="form-group">
                 <input type="text" v-model="direccion" class="form-control" id="direccion" placeholder="Dirección actual" required />
