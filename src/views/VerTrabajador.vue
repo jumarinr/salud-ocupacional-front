@@ -65,6 +65,7 @@ export default {
   },
   data() {
       return {
+        baseUrl: process.env.VUE_APP_BASE_URL,
         idTrabajador: this.$route.params.idTrabajador,
         trabajador: {},
         camposVacunas: ['nombre', 'cantidad_aplicada', 'proxima_fecha_de_aplicacion'],
@@ -83,7 +84,7 @@ export default {
     }, 
     methods: {
       obtenerDatosEmpleado(){
-        axios.get('http://localhost:4000/empleados/' + this.idTrabajador)
+        axios.get(this.baseUrl + '/empleados/' + this.idTrabajador)
           .then(res => {
             this.trabajador = res.data;
             if (this.trabajador.celular == null) {

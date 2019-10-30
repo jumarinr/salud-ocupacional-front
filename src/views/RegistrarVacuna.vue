@@ -65,6 +65,7 @@ export default {
   },
   data (){
       return {
+        baseUrl: process.env.VUE_APP_BASE_URL,
         nombre: '',
         descripcion: '',
         periodicidad: '',
@@ -76,7 +77,7 @@ export default {
   methods: {
       registrarVacuna(){
           // Cambiar ruta a la ruta de la api
-          axios.post('http://localhost:4000/vacunas', {
+          axios.post(this.baseUrl + '/vacunas', {
               nombre: this.nombre,
               descripcion: this.descripcion,
               periodicidad: this.periodicidad,

@@ -40,6 +40,7 @@ export default {
  name: 'Login',
  data () {
    return {
+     baseUrl: process.env.VUE_APP_BASE_URL,
      correo: '',
      contrasena: '',
      error: {}
@@ -47,7 +48,7 @@ export default {
  },
  methods: {
    login () {
-     axios.post('http://localhost:4000/login', {
+     axios.post(this.baseUrl + '/login', {
        correo: this.correo,
        contrasena: this.contrasena
      }).then(res => {       

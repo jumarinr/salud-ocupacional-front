@@ -123,6 +123,7 @@ export default {
   },
   data () {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
       modoEdicion: !!this.$route.params.idTrabajador,
       nombres: '',
       apellidos: '',
@@ -159,7 +160,7 @@ export default {
   methods: {
     registrarTrabajador () {
       // TODO: Hacer la lógica correspondiente para el editar
-      axios.post('http://localhost:4000/empleados', {
+      axios.post(this.baseUrl + '/empleados', {
         nombres: this.nombres,
         apellidos: this.apellidos,
         direccion: this.direccion,
@@ -205,7 +206,7 @@ export default {
     }
   },
   created: function () {
-    axios.get('http://localhost:4000/vacunas')
+    axios.get(this.baseUrl + '/vacunas')
     .then(res => {
       this.listaVacunas = res.data.datos;
     })

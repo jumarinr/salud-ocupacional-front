@@ -89,6 +89,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
       filtro: '',
       // ----- Datos de la tabla
       camposEmpleados: [
@@ -113,7 +114,7 @@ export default {
   },
   methods: {
     obtenerEmpleados(){
-      axios.get('http://localhost:4000/empleados')
+      axios.get(this.baseUrl + '/empleados')
         .then(res => {
           this.empleados = res.data.datos
           console.log(this.empleados)
