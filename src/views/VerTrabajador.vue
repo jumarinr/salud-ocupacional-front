@@ -55,7 +55,7 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL,
       idTrabajador: this.$route.params.idTrabajador,
       trabajador: {},
-      camposVacunas: ["nombre", "cantidad_aplicada"],
+      camposVacunas: ["nombre", "cantidadAplicada"],
       vacunas: []
     };
   },
@@ -73,7 +73,7 @@ export default {
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
-            cantidad_aplicada: detalleVacunacion.cantidadAplicada
+            cantidadAplicada: detalleVacunacion.cantidadAplicada
           });
         });
         this.vacunas = vacunas;

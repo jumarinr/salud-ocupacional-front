@@ -11,13 +11,13 @@
           <b-button to="trabajadores/registrar" class="my-3 float-left" variant="primary">
             Registrar Trabajador
           </b-button>
-          
+
           <!-- Buscador -->
           <div class="my-3 float-right">
             <input class="form-control" type="text" placeholder="Buscar" aria-label="Buscar" v-model="filtro"/>
           </div>
         </div>
-        
+
         <!-- Tabla donde se muestran los datos de los empleados -->
         <b-table
           class="align-self-stretch shadow border text-center"
@@ -116,10 +116,8 @@ export default {
       axios.get(this.baseUrl + '/empleados')
         .then(res => {
           this.empleados = res.data.datos
-          console.log(this.empleados)
-          console.log(Object.keys(this.empleados).length)
           this.rows = Object.keys(this.empleados).length
-          for (let index = 0; index < Object.keys(this.empleados).length; index++) {    
+          for (let index = 0; index < Object.keys(this.empleados).length; index++) {
             var id_emp = this.empleados[index]._id
             this.empleados[index]['ver'] =  '<a href= "trabajadores/ver/'+id_emp+'" class="btn btn-info"> <i class="fas fa-user"></i></a>'
             this.empleados[index]['editar'] =  '<a  href="" class="btn btn-success"><i class="fas fa-user-edit"></i></a>'
@@ -127,7 +125,7 @@ export default {
           }
         })
 
-        
+
     }
 
 
