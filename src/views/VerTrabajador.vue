@@ -5,34 +5,21 @@
 
     <Container>
       <div class="col p-3">
-        <h4 class="p-2">Armando Paredes Rojas</h4>
-
+        <!-- Datos trabajador -->
+        <h4 class="p-2">{{this.trabajador.nombres}} {{this.trabajador.apellidos}}</h4>
         <b-table-simple stacked class="rounded shadow">
-          <colgroup><col/><col/></colgroup>
-
-          <b-thead>
-            <b-tr>
-              <b-th>Identificación:</b-th>
-              <b-th>Dirección actual:</b-th>
-              <b-th>Correo:</b-th>
-              <b-th>Teléfono:</b-th>
-              <b-th>Celular:</b-th>
-              <b-th>Nivel de riesgo:</b-th>
-              <b-th>Fecha de nacimiento:</b-th>
-              <b-th>Número de emergencia:</b-th>
-            </b-tr>
-          </b-thead>
-
           <b-tbody>
             <b-tr class="text-center">
+              <b-td stacked-heading="Tipo de identificación:">{{this.trabajador.tipoIdentificacion}}</b-td>
               <b-td stacked-heading="Identificación:">{{this.trabajador.identificacion}}</b-td>
-              <b-td stacked-heading="Dirección actual:">{{this.trabajador.direccion}}</b-td>
               <b-td stacked-heading="Correo:">{{this.trabajador.correo}}</b-td>
+              <b-td stacked-heading="Fecha de nacimiento:">{{String(this.trabajador.fechaNacimiento).substring(0, 10)}}</b-td>
+              <b-td stacked-heading="Dirección:">{{this.trabajador.direccion}}</b-td>
               <b-td stacked-heading="Teléfono:">{{this.trabajador.telefono}}</b-td>
               <b-td stacked-heading="Celular:">{{this.trabajador.celular}}</b-td>
-              <b-td stacked-heading="Nivel de riesgo:">//</b-td>
-              <b-td stacked-heading="Fecha de nacimiento:">{{this.trabajador.fechaNacimiento}}</b-td>
-              <b-td stacked-heading="Télefono de un familiar:">{{this.trabajador.contactoAllegado}}</b-td>
+              <b-td stacked-heading="Contacto de allegado:">{{this.trabajador.contactoAllegado}}</b-td>
+              <b-td stacked-heading="Nivel de riesgo laboral:">{{this.trabajador.nivelRiesgoLaboral}}</b-td>
+              <b-td stacked-heading="Área de trabajo:">{{this.trabajador.areaTrabajo}}</b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
@@ -64,35 +51,34 @@ export default {
     Footer
   },
   data() {
-      return {
-        baseUrl: process.env.VUE_APP_BASE_URL,
-        idTrabajador: this.$route.params.idTrabajador,
-        trabajador: {},
-        camposVacunas: ['nombre', 'cantidad_aplicada', 'proxima_fecha_de_aplicacion'],
-        vacunas: [
-          { nombre: 'vacuna 1', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
-          { nombre: 'vacuna 2', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
-          { nombre: 'vacuna 3', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
-          { nombre: 'vacuna 1', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
-          { nombre: 'vacuna 2', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'},
-          { nombre: 'vacuna 3', cantidad_aplicada: '0 de 2', proxima_fecha_de_aplicacion: '24/12/2019'}
-        ]
-      }
-    },
-    created() {
-          this.obtenerDatosEmpleado();
-    }, 
-    methods: {
-      obtenerDatosEmpleado(){
-        axios.get(this.baseUrl + '/empleados/' + this.idTrabajador)
-          .then(res => {
-            this.trabajador = res.data;
-            if (this.trabajador.celular == null) {
-              this.trabajador.celular = 'NO';
-            }
-            console.log(this.trabajador)
-          })
-      }
+    return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
+      idTrabajador: this.$route.params.idTrabajador,
+      trabajador: {},
+      camposVacunas: ["nombre", "cantidad_aplicada"],
+      vacunas: []
+    };
+  },
+  created() {
+    this.obtenerDatosEmpleado();
+  },
+  methods: {
+    obtenerDatosEmpleado() {
+      axios.get(this.baseUrl + "/empleados/" + this.idTrabajador).then(res => {
+        this.trabajador = res.data.datos;
+        if (this.trabajador.celular == null) {
+          this.trabajador.celular = "N/A";
+        }
+        var vacunas = [];
+        this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
+          vacunas.push({
+            nombre: detalleVacunacion.vacuna.nombre,
+            cantidad_aplicada: detalleVacunacion.cantidadAplicada
+          });
+        });
+        this.vacunas = vacunas;
+      });
     }
+  }
 };
 </script>

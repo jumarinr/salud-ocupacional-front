@@ -27,7 +27,6 @@
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
           sort-icon-center
         >
         <template v-slot:cell(ver)="data">
@@ -106,7 +105,7 @@ export default {
       rows: 1,
       perPage: 50,
       currentPage: 1,
-
+      sortBy: "nombres"
     };
   },
   created (){
