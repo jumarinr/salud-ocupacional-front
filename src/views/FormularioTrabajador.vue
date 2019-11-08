@@ -144,11 +144,11 @@ export default {
       listaVacunas:[],
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
-        {value: 'n1', text: 'I'},
-        {value: 'n2', text: 'II'},
-        {value: 'n3', text: 'III'},
-        {value: 'n4', text: 'IV'},
-        {value: 'n5', text: 'V'}
+        {value: 'I', text: 'I'},
+        {value: 'II', text: 'II'},
+        {value: 'III', text: 'III'},
+        {value: 'IV', text: 'IV'},
+        {value: 'V', text: 'V'}
       ],
       opcionesTipoDoc: [
         {value: null, text: 'Seleccionar tipo de documento'},
