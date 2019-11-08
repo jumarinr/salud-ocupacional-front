@@ -55,7 +55,7 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL,
       idTrabajador: this.$route.params.idTrabajador,
       trabajador: {},
-      camposVacunas: ["nombre", "cantidadAplicada"],
+      camposVacunas: ["nombre", "cantidadAplicada", "próximaFechaDeAplicación"],
       vacunas: []
     };
   },
@@ -73,7 +73,8 @@ export default {
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
-            cantidadAplicada: detalleVacunacion.cantidadAplicada
+            cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
+            próximaFechaDeAplicación: 0 //TODO: conectar con lo que falta
           });
         });
         this.vacunas = vacunas;
