@@ -82,7 +82,7 @@ export default {
       camposVacunas: [
         {key:"nombre", sortable: true}, 
         {key:"cantidadAplicada", sortable: false},
-        {key:"próximaFechaDeAplicación",sortable: false}
+        {key:"proximaFechaDeAplicacion",sortable: false}
         ],
       vacunas: [
 
@@ -112,7 +112,7 @@ export default {
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
             cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
-            próximaFechaDeAplicación: 0 //TODO: conectar con lo que falta
+            proximaFechaDeAplicacion: 0 //TODO: conectar con lo que falta
           });
         });
         this.vacunas = vacunas;
