@@ -27,29 +27,30 @@
 
           <!-- Titulo de vacunas -->
           <h4 class="p-2">Vacunas</h4>
+          
+          <!-- Tabla vacunas trabajador -->
 
-          <!-- Tabla de vacunas -->
-          <b-table class="align-self-stretch shadow border text-center" 
-            id="my-table"
-            :items="vacunas" 
-            :fields="camposVacunas" 
-            :per-page="perPage"
-            :current-page="currentPage"
-            :sort-by.sync="sortBy"
-            sort-icon-center
-          >
-        </b-table>
           <div class="overflow-auto">
-          <!-- Use text in props -->
+            <b-table
+              class="align-self-stretch shadow border text-center"
+              id="my-table"
+              :items="vacunas"
+              :fields="camposVacunas" 
+              :per-page="perPage"
+              :current-page="currentPage"
+              small
+            ></b-table>
+            
+            <!-- Paginacion -->
+            
             <b-pagination
               v-model="currentPage"
               :total-rows="rows"
               :per-page="perPage"
-               size="sm"
-              align="right"
               aria-controls="my-table"
+              align="right"
             ></b-pagination>
-          </div>  
+          </div> 
         </div>
       </div>
     </Container>
@@ -85,12 +86,15 @@ export default {
       vacunas: [
 
       ],
-      // ----- Datos del pagination
-      rows: 1,
+      // ----- Datos del paginacion
       perPage: 10,
-      currentPage: 1,
-      sortBy: "nombre"
-    };
+      currentPage: 1
+    }
+  },
+  computed: {
+      rows() {
+        return this.vacunas.length
+      }
   },
   created() {
     this.obtenerDatosEmpleado();
