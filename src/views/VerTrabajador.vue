@@ -81,7 +81,8 @@ export default {
        // ----- Datos de la tabla
       camposVacunas: [
         {key:"nombre", sortable: true}, 
-        {key:"cantidadAplicada", sortable: false}
+        {key:"cantidadAplicada", sortable: false},
+        {key:"próximaFechaDeAplicación",sortable: false}
         ],
       vacunas: [
 
@@ -110,7 +111,8 @@ export default {
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
-            cantidadAplicada: detalleVacunacion.cantidadAplicada
+            cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
+            próximaFechaDeAplicación: 0 //TODO: conectar con lo que falta
           });
         });
         this.vacunas = vacunas;
