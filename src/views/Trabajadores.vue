@@ -124,13 +124,7 @@ export default {
             this.empleados[index]['eliminar'] =  '<a  href="" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
           }
         })
-
-
     }
-
-
   }
-
-  // <>
 };
 </script>

@@ -12,12 +12,7 @@
             <Stepper paso="1" />
 
             <!-- Alertas -->
-            <div v-if="error === false">
-              <div class="alert alert-success">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
-            </div>
-            <div v-if="error === true">
-              <div class="alert alert-danger">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
-            </div>
+            <div v-if="error !== null" :class="[error === true ? 'alert-danger' : 'alert-success', 'alert']">{{ mensajeTransaccion }}</div>
 
             <!-- Título del registro -->
             <h4 class="px-sm-5 text-center text-sm-left">{{ modoEdicion ? 'Edición' : 'Registro'}} de trabajador</h4>
@@ -138,7 +133,8 @@ export default {
       telefonoFamiliar: '',
       tipoTrabajador: '',
       detallesVacunacion: [],
-      error: {},
+      error: null,
+      mensajeTransaccion: "",
       ocultar:false,
       mostrarCamposVacios:false,
       listaVacunas:[],
@@ -159,6 +155,9 @@ export default {
   },
   methods: {
     registrarTrabajador () {
+      this.error = null;
+      this.mensajeTransaccion = "";
+
       // TODO: Hacer la lógica correspondiente para el editar
       axios.post(this.baseUrl + '/empleados', {
         nombres: this.nombres,
@@ -176,10 +175,11 @@ export default {
         detallesVacunacion: this.detallesVacunacion
       }).then(res => {
         this.error = res.data.error;
+        this.mensajeTransaccion = res.data.mensaje;
       }).catch(err => {
-
         console.log(err)
       });
+
       this.nombres= '';
       this.apellidos= '';
       this.direccion= '';
