@@ -14,11 +14,13 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav pills class="ml-auto">
           <!-- INICIO ITEMS DEL MENU -->
-          <b-nav-item to="/trabajadores" exact exact-active-class="active">
+          <b-nav-item v-if="areaTrabajo() == 'Direccion' || areaTrabajo() == 'Empleado salud'"
+            to="/trabajadores" exact exact-active-class="active">
             <i class="fas fa-users"></i>
             Ver trabajadores
           </b-nav-item>
-          <b-nav-item to="/vacunas/registrar" exact exact-active-class="active">
+          <b-nav-item v-if="areaTrabajo() == 'Direccion'"
+            to="/vacunas/registrar" exact exact-active-class="active">
             <i class="fas fa-medkit"></i>
             Registrar vacunas
           </b-nav-item>
@@ -49,8 +51,13 @@ export default {
       .then(res => {
         if (!res.data.error){
           localStorage.removeItem('usertoken')
+          localStorage.removeItem("authenticated")
+          localStorage.removeItem("areaTrabajo")
         }
       })
+    },
+    areaTrabajo () {
+      return localStorage.getItem('areaTrabajo')
     }
   }
 }
