@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     obtenerEmpleados(){
-      axios.get(this.baseUrl + '/empleados')
+      axios({method: "GET", url: this.baseUrl + '/empleados',  withCredentials: true} )
         .then(res => {
           this.empleados = res.data.datos
           this.rows = Object.keys(this.empleados).length
@@ -124,13 +124,7 @@ export default {
             this.empleados[index]['eliminar'] =  '<a  href="" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
           }
         })
-
-
     }
-
-
   }
-
-  // <>
 };
 </script>

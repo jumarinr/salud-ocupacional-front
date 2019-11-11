@@ -18,10 +18,6 @@
             <i class="fas fa-users"></i>
             Ver trabajadores
           </b-nav-item>
-          <b-nav-item to="/trabajadores/registrar" exact exact-active-class="active">
-            <i class="fas fa-user-plus"></i>
-            Registrar trabajadores
-          </b-nav-item>
           <b-nav-item to="/vacunas/registrar" exact exact-active-class="active">
             <i class="fas fa-medkit"></i>
             Registrar vacunas

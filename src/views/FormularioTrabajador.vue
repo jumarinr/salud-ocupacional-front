@@ -12,12 +12,7 @@
             <Stepper paso="1" />
 
             <!-- Alertas -->
-            <div v-if="error === false">
-              <div class="alert alert-success">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
-            </div>
-            <div v-if="error === true">
-              <div class="alert alert-danger">Empleado fue {{ modoEdicion ? 'editado' : 'registrado'}}</div>
-            </div>
+            <div v-if="error !== null" :class="[error === true ? 'alert-danger' : 'alert-success', 'alert']">{{ mensajeTransaccion }}</div>
 
             <!-- Título del registro -->
             <h4 class="px-sm-5 text-center text-sm-left">{{ modoEdicion ? 'Edición' : 'Registro'}} de trabajador</h4>
@@ -138,17 +133,18 @@ export default {
       telefonoFamiliar: '',
       tipoTrabajador: '',
       detallesVacunacion: [],
-      error: {},
+      error: null,
+      mensajeTransaccion: "",
       ocultar:false,
       mostrarCamposVacios:false,
       listaVacunas:[],
       opcionesRiesgo: [
         {value: null, text: 'Seleccionar nivel de riesgo'},
-        {value: 'n1', text: 'I'},
-        {value: 'n2', text: 'II'},
-        {value: 'n3', text: 'III'},
-        {value: 'n4', text: 'IV'},
-        {value: 'n5', text: 'V'}
+        {value: 'I', text: 'I'},
+        {value: 'II', text: 'II'},
+        {value: 'III', text: 'III'},
+        {value: 'IV', text: 'IV'},
+        {value: 'V', text: 'V'}
       ],
       opcionesTipoDoc: [
         {value: null, text: 'Seleccionar tipo de documento'},
@@ -159,8 +155,11 @@ export default {
   },
   methods: {
     registrarTrabajador () {
+      this.error = null;
+      this.mensajeTransaccion = "";
+
       // TODO: Hacer la lógica correspondiente para el editar
-      axios.post(this.baseUrl + '/empleados', {
+      axios({ method: "POST", url: this.baseUrl + '/empleados',  data: {
         nombres: this.nombres,
         apellidos: this.apellidos,
         direccion: this.direccion,
@@ -174,12 +173,13 @@ export default {
         telefonoFamiliar: this.telefonoFamiliar,
         tipoTrabajador: this.tipoTrabajador,
         detallesVacunacion: this.detallesVacunacion
-      }).then(res => {
+      } , withCredentials: true }).then(res => {
         this.error = res.data.error;
+        this.mensajeTransaccion = res.data.mensaje;
       }).catch(err => {
-
         console.log(err)
       });
+
       this.nombres= '';
       this.apellidos= '';
       this.direccion= '';
@@ -206,7 +206,7 @@ export default {
     }
   },
   created: function () {
-    axios.get(this.baseUrl + '/vacunas')
+    axios({ method: 'GET' , 'url': this.baseUrl + '/vacunas', withCredentials: true })
     .then(res => {
       this.listaVacunas = res.data.datos;
     })
