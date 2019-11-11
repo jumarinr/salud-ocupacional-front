@@ -1,12 +1,12 @@
 <template>
  <div class="justify-content-center align-items-center">
    <div class="d-flex flex-column align-items-center px-5 py-4 rounded bg-white bg-light">
-     
+
      <!-- Logo de la empresa -->
      <b-media>
         <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
      </b-media>
-     
+
      <!-- Título de inicio de sesión -->
      <h4 class="px-sm-5 text-center text-sm-left">Inicio de sesión</h4>
 
@@ -20,7 +20,7 @@
          <!-- Input de contraseña -->
          <b-form-group>
            <input v-model="contrasena" type="password" id="contrasena" class="form-control" placeholder="Ingresar contraseña" required>
-         </b-form-group>   
+         </b-form-group>
          <!-- Alerta -->
          <div v-if="error === true">
               <div class="alert alert-danger">Usuario y/o contraseña no encontrado</div>
@@ -56,7 +56,7 @@ export default {
         contrasena: this.contrasena
       },
       withCredentials: true
-     }).then(res => {       
+     }).then(res => {
        if(res.data.error){
          this.error = res.data.error;
        }else{
@@ -65,7 +65,7 @@ export default {
        localStorage.setItem('areaTrabajo', JSON.parse(res.headers.session).areaTrabajo)
        this.error = res.data.error;
        this.correo = ''
-       this.contrasena = ''       
+       this.contrasena = ''
        this.$router.push('/home')
        }
      }).catch(err => {

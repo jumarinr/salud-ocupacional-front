@@ -212,8 +212,8 @@ export default {
   },
   created: function () {
     axios({
-      method: "GET", 
-      url: this.baseUrl + '/vacunas', 
+      method: "GET",
+      url: this.baseUrl + '/vacunas',
       withCredentials: true
     })
     .then(res => {
