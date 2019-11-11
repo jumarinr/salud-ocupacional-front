@@ -102,7 +102,11 @@ export default {
   },
   methods: {
     obtenerDatosEmpleado() {
-      axios.get(this.baseUrl + "/empleados/" + this.idTrabajador).then(res => {
+      axios({
+        method: "GET", 
+        url: this.baseUrl + "/empleados/" + this.idTrabajador, 
+        withCredentials: true
+      }).then(res => {
         this.trabajador = res.data.datos;
         if (this.trabajador.celular == null) {
           this.trabajador.celular = "N/A";

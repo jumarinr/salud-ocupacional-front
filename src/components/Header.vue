@@ -24,7 +24,7 @@
             <i class="fas fa-medkit"></i>
             Registrar vacunas
           </b-nav-item>
-          <b-nav-item to="/" @click="logout" exact exact-active-class="active">
+          <b-nav-item @click="logout" exact exact-active-class="active">
             <i class="fas fa-sign-out-alt"></i>
             Cerrar sesión
           </b-nav-item>
@@ -47,12 +47,16 @@ export default {
   },
   methods: {
     logout () {
-      axios.delete(this.baseUrl + '/login')
-      .then(res => {
+      axios({
+        method: "DELETE",
+        url: this.baseUrl + '/login', 
+        withCredentials: true
+      }).then(res => {
         if (!res.data.error){
           localStorage.removeItem('usertoken')
           localStorage.removeItem("authenticated")
           localStorage.removeItem("areaTrabajo")
+          this.$router.push("/")
         }
       })
     },

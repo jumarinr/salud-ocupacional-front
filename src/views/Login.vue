@@ -48,9 +48,14 @@ export default {
  },
  methods: {
    login () {
-     axios.post(this.baseUrl + '/login', {
-       correo: this.correo,
-       contrasena: this.contrasena
+     axios({
+       method: "POST",
+       url: this.baseUrl + '/login',
+       data: {
+        correo: this.correo,
+        contrasena: this.contrasena
+      },
+      withCredentials: true
      }).then(res => {       
        if(res.data.error){
          this.error = res.data.error;

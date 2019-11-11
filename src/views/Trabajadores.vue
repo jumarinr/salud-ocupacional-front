@@ -113,8 +113,11 @@ export default {
   },
   methods: {
     obtenerEmpleados(){
-      axios.get(this.baseUrl + '/empleados')
-        .then(res => {
+      axios({
+        method: "GET",
+        url: this.baseUrl + '/empleados',
+        withCredentials: true
+      }).then(res => {
           this.empleados = res.data.datos
           this.rows = Object.keys(this.empleados).length
           for (let index = 0; index < Object.keys(this.empleados).length; index++) {
