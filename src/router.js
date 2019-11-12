@@ -83,6 +83,12 @@ const router = new Router({
       requiresAuth: true,
       areasTrabajoRestringidas: []
     }
+  },
+  {
+    path: "*",
+    beforeEnter: (to, from, next) => {
+      next(Home)
+    }
   }
 ]
 })
