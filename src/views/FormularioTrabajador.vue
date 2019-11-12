@@ -159,20 +159,25 @@ export default {
       this.mensajeTransaccion = "";
 
       // TODO: Hacer la lógica correspondiente para el editar
-      axios.post(this.baseUrl + '/empleados', {
-        nombres: this.nombres,
-        apellidos: this.apellidos,
-        direccion: this.direccion,
-        correo: this.correo,
-        tipoDocumento: this.tipoDocumento,
-        documento: this.documento,
-        telefono: this.telefono,
-        celular: this.celular,
-        nivelRiesgo: this.nivelRiesgo,
-        fechaNacimiento: this.fechaNacimiento,
-        telefonoFamiliar: this.telefonoFamiliar,
-        tipoTrabajador: this.tipoTrabajador,
-        detallesVacunacion: this.detallesVacunacion
+      axios({
+        method: "POST",
+        url: this.baseUrl + '/empleados',
+        withCredentials: true,
+        data: {
+          nombres: this.nombres,
+          apellidos: this.apellidos,
+          direccion: this.direccion,
+          correo: this.correo,
+          tipoDocumento: this.tipoDocumento,
+          documento: this.documento,
+          telefono: this.telefono,
+          celular: this.celular,
+          nivelRiesgo: this.nivelRiesgo,
+          fechaNacimiento: this.fechaNacimiento,
+          telefonoFamiliar: this.telefonoFamiliar,
+          tipoTrabajador: this.tipoTrabajador,
+          detallesVacunacion: this.detallesVacunacion
+        }
       }).then(res => {
         this.error = res.data.error;
         this.mensajeTransaccion = res.data.mensaje;
@@ -206,7 +211,11 @@ export default {
     }
   },
   created: function () {
-    axios.get(this.baseUrl + '/vacunas')
+    axios({
+      method: "GET", 
+      url: this.baseUrl + '/vacunas', 
+      withCredentials: true
+    })
     .then(res => {
       this.listaVacunas = res.data.datos;
     })

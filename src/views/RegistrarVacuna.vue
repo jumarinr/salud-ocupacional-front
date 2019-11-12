@@ -77,13 +77,17 @@ export default {
   methods: {
       registrarVacuna(){
           // Cambiar ruta a la ruta de la api
-          axios.post(this.baseUrl + '/vacunas', {
+          axios({
+            method: "POST",
+            url: this.baseUrl + '/vacunas',
+            data: {
               nombre: this.nombre,
               descripcion: this.descripcion,
               periodicidad: this.periodicidad,
               cantidadAplicar: this.cantidadAplicar,
               prestadorServicio: this.prestadorServicio,
-
+            },
+            withCredentials: true
           }).then(res => {
               this.error = res.data;
 
