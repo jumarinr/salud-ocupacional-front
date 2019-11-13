@@ -36,7 +36,7 @@
               <span v-html="data.value"></span>
         </template>
         <template v-slot:cell(eliminar)="data">
-              <span v-html="data.value"></span>
+          <button v-on:click="eliminarEmpleado(data.value)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
         </template>
         </b-table>
 
@@ -124,9 +124,20 @@ export default {
             var id_emp = this.empleados[index]._id
             this.empleados[index]['ver'] =  '<a href= "trabajadores/ver/'+id_emp+'" class="btn btn-info"> <i class="fas fa-user"></i></a>'
             this.empleados[index]['editar'] =  '<a  href="trabajadores/editar/'+id_emp+'" class="btn btn-success"><i class="fas fa-user-edit"></i></a>'
-            this.empleados[index]['eliminar'] =  '<a  href="" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
+            this.empleados[index]['eliminar'] = id_emp
           }
         })
+    },
+    eliminarEmpleado(id) {
+      axios({
+        method: "DELETE",
+        url: this.baseUrl + "/empleados/" + id,
+        withCredentials: true
+      }).then(res => {
+        this.empleados = this.empleados.filter((empleado) => {
+          return empleado._id != id
+        })
+      })
     }
   }
 };
