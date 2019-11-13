@@ -56,6 +56,7 @@ export default {
           localStorage.removeItem('usertoken')
           localStorage.removeItem("authenticated")
           localStorage.removeItem("areaTrabajo")
+          localStorage.removeItem("id")
           this.$router.push("/")
         }
       })
