@@ -119,6 +119,14 @@ export default {
         withCredentials: true
       }).then(res => {
           this.empleados = res.data.datos
+          
+          // Se filtran los directores y al usuario ya que no tiene sentido
+          // que este puede eliminar a algún director o a sí mismo.
+          this.empleados = this.empleados.filter((empleado) => {
+            return empleado._id != localStorage.getItem('id') &&
+            empleado.areaTrabajo != "Direccion"
+          })
+
           this.rows = Object.keys(this.empleados).length
           for (let index = 0; index < Object.keys(this.empleados).length; index++) {
             var id_emp = this.empleados[index]._id

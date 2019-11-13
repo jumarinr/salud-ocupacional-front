@@ -63,6 +63,7 @@ export default {
        localStorage.setItem('usertoken', res.data)
        localStorage.setItem('authenticated', true)
        localStorage.setItem('areaTrabajo', JSON.parse(res.headers.session).areaTrabajo)
+       localStorage.setItem('id', JSON.parse(res.headers.session).id)
        this.error = res.data.error;
        this.correo = ''
        this.contrasena = ''
