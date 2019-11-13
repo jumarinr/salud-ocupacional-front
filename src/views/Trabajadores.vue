@@ -123,7 +123,7 @@ export default {
           for (let index = 0; index < Object.keys(this.empleados).length; index++) {
             var id_emp = this.empleados[index]._id
             this.empleados[index]['ver'] =  '<a href= "trabajadores/ver/'+id_emp+'" class="btn btn-info"> <i class="fas fa-user"></i></a>'
-            this.empleados[index]['editar'] =  '<a  href="" class="btn btn-success"><i class="fas fa-user-edit"></i></a>'
+            this.empleados[index]['editar'] =  '<a  href="trabajadores/editar/'+id_emp+'" class="btn btn-success"><i class="fas fa-user-edit"></i></a>'
             this.empleados[index]['eliminar'] =  '<a  href="" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
           }
         })
