@@ -120,7 +120,16 @@ export default {
           });
         });
         this.vacunas = vacunas;
-      });
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
     }
   }
 };

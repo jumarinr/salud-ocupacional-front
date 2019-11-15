@@ -59,7 +59,16 @@ export default {
           localStorage.removeItem("id")
           this.$router.push("/")
         }
-      })
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
     },
     areaTrabajo () {
       return localStorage.getItem('areaTrabajo')

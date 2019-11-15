@@ -191,9 +191,16 @@ export default {
       }).then(res => {
         this.error = res.data.error;
         this.mensajeTransaccion = res.data.mensaje;
-      }).catch(err => {
-        console.log(err)
-      });
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
 
       this.nombres= '';
       this.apellidos= '';
@@ -242,9 +249,16 @@ export default {
       }).then(res => {
         this.error = res.data.error;
         this.mensajeTransaccion = res.data.mensaje;
-      }).catch(err => {
-        console.log(err)
-      });
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
 
       this.nombres= '';
       this.apellidos= '';
@@ -279,7 +293,16 @@ export default {
     })
     .then(res => {
       this.listaVacunas = res.data.datos;
-    })
+    }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
 
     // Se consultan e insertan en el formulario los datos del empleado a editar
     if (this.modoEdicion) {
@@ -307,7 +330,16 @@ export default {
         this.detallesVacunacion = res.data.datos.detallesVacunacion.map((elemento) => {
           return elemento.vacuna._id
         })
-      })
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
     }
   }
 }
