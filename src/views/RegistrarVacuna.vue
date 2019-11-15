@@ -93,10 +93,16 @@ export default {
 
               // eslint-disable-next-line
               console.log(res.data)
-          }).catch(err => {
-            // eslint-disable-next-line
-              console.log(err)
-          });
+          }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
 
           this.nombre = '';
           this.descripcion = '';

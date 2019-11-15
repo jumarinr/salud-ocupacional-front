@@ -134,6 +134,15 @@ export default {
             this.empleados[index]['editar'] =  '<a  href="trabajadores/editar/'+id_emp+'" class="btn btn-success"><i class="fas fa-user-edit"></i></a>'
             this.empleados[index]['eliminar'] = id_emp
           }
+        }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
         })
     },
     eliminarEmpleado(id) {
@@ -145,7 +154,16 @@ export default {
         this.empleados = this.empleados.filter((empleado) => {
           return empleado._id != id
         })
-      })
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
     }
   }
 };
