@@ -121,10 +121,13 @@ export default {
           this.empleados = res.data.datos
           
           // Se filtran los directores y al usuario ya que no tiene sentido
-          // que este puede eliminar a algún director o a sí mismo.
+          // que este puede eliminar a algún director, a sí mismo o a otro empleado de salud (a excepción
+          // de que el usuario sea un director).
           this.empleados = this.empleados.filter((empleado) => {
             return empleado._id != localStorage.getItem('id') &&
-            empleado.areaTrabajo != "Direccion"
+            empleado.areaTrabajo != "Direccion" && 
+            (empleado.areaTrabajo == "Empleado salud" && localStorage.getItem("areaTrabajo") == "Direccion") ||
+            empleado.areaTrabajo == "Empleado normal"
           })
 
           this.rows = Object.keys(this.empleados).length
