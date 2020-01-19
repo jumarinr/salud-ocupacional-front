@@ -9,7 +9,7 @@
         <div class="w-100">
           <!-- Botón Registrar -->
           <b-button to="trabajadores/registrar" class="my-3 float-left" variant="primary">
-            Registrar Trabajador
+            Registrar trabajador
           </b-button>
 
           <!-- Buscador -->

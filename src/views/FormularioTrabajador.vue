@@ -45,7 +45,7 @@
               </div>
               <div class="form-group">
                 <label for="direccion">Dirección</label>
-                <input type="text" v-model="direccion" class="form-control" id="direccion" placeholder="Dirección actual" required />
+                <input type="text" v-model="direccion" class="form-control" id="direccion" placeholder="Dirección" required />
               </div>
               <div class="form-group">
                 <label for="telefono">Teléfono</label>

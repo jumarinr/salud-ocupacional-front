@@ -7,7 +7,12 @@
       <div class="w-100 d-flex flex-column align-items-center p-3">
         <div class="w-100">
           <!-- Datos trabajador -->
-          <h4 class="p-2">{{this.trabajador.nombres}} {{this.trabajador.apellidos}}</h4>
+          <b-button to="/trabajadores" class="my-3 float-right" variant="primary">
+            Volver
+          </b-button>
+          <h4 class="my-3 float-left">{{this.trabajador.nombres}} {{this.trabajador.apellidos}}</h4>
+        </div>
+        <div class="w-100">
           <b-table-simple stacked class="rounded shadow">
             <b-tbody>
               <b-tr class="text-center">
