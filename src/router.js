@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from './views/Login'
-import Home from './views/Home'
-import MiPerfil from './views/MiPerfil'
+import Login from './views/nucleo/Login'
+import Home from './views/nucleo/Home'
+import MiPerfil from './views/mi-perfil/MiPerfil'
 
-import Vacunas from './views/Vacunas'
-import VerVacuna from './views/VerVacuna'
-import FormularioVacuna from './views/FormularioVacuna'
+import Vacunas from './views/vacunas/Vacunas'
+import VerVacuna from './views/vacunas/VerVacuna'
+import FormularioVacuna from './views/vacunas/FormularioVacuna'
 
-import Trabajadores from './views/Trabajadores'
-import VerTrabajador from './views/VerTrabajador'
-import FormularioTrabajador from './views/FormularioTrabajador'
+import AplicarVacunas from './views/aplicar-vacunas/AplicarVacunas'
+import AplicarVacunasTrabajador from './views/aplicar-vacunas/AplicarVacunasTrabajador'
+
+import Trabajadores from './views/trabajadores/Trabajadores'
+import VerTrabajador from './views/trabajadores/VerTrabajador'
+import FormularioTrabajador from './views/trabajadores/FormularioTrabajador'
 
 Vue.use(Router)
 
@@ -95,7 +98,7 @@ const router = new Router({
     component: FormularioVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Direccion"]
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
     }
   },
   {
@@ -104,7 +107,7 @@ const router = new Router({
     component: VerVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Direccion"]
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
     }
   },
   {
@@ -113,7 +116,7 @@ const router = new Router({
     component: FormularioVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Direccion"]
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
     }
   },
   {
@@ -122,7 +125,25 @@ const router = new Router({
     component: Vacunas,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Direccion"]
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
+    }
+  },
+  {
+    path: '/vacunas/aplicar',
+    name: 'AplicarVacunas',
+    component: AplicarVacunas,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal"]
+    }
+  },
+  {
+    path: '/vacunas/aplicar/:idTrabajador',
+    name: 'AplicarVacunasTrabajador',
+    component: AplicarVacunasTrabajador,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal"]
     }
   },
   {

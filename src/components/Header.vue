@@ -42,6 +42,16 @@
             <i class="fas fa-medkit"></i>
             Vacunas
           </b-nav-item>
+
+          <b-nav-item
+            v-if="areaTrabajo() == 'Direccion' || areaTrabajo() == 'Empleado salud'"
+            to="/vacunas/aplicar"
+            exact
+            exact-active-class="active"
+          >
+            <i class="fas fa-syringe"></i>
+            Aplicar Vacunas
+          </b-nav-item>
           
           <b-nav-item @click="logout" exact exact-active-class="active">
             <i class="fas fa-sign-out-alt"></i>
