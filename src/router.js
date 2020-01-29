@@ -2,11 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from './views/Login'
-import FormularioTrabajador from './views/FormularioTrabajador'
-import RegistrarVacuna from './views/RegistrarVacuna'
+import Home from './views/Home'
+import MiPerfil from './views/MiPerfil'
+
+import Vacunas from './views/Vacunas'
+import VerVacuna from './views/VerVacuna'
+import FormularioVacuna from './views/FormularioVacuna'
+
 import Trabajadores from './views/Trabajadores'
 import VerTrabajador from './views/VerTrabajador'
-import Home from './views/Home'
+import FormularioTrabajador from './views/FormularioTrabajador'
 
 Vue.use(Router)
 
@@ -31,18 +36,36 @@ const router = new Router({
     }
   },
   {
-    path: '/vacunas/registrar',
-    name: 'RegistrarVacuna',
-    component: RegistrarVacuna,
+    path: '/home',
+    name: 'Home',
+    component: Home,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
+      areasTrabajoRestringidas: []
+    }
+  },
+  {
+    path: '/miPerfil',
+    name: 'MiPerfil',
+    component: MiPerfil,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: []
     }
   },
   {
     path: '/trabajadores/registrar',
     name: 'RegistrarTrabajador',
     component: FormularioTrabajador,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal"]
+    }
+  },
+  {
+    path: '/trabajadores/ver/:idTrabajador',
+    name: 'VerTrabajador',
+    component: VerTrabajador,
     meta: {
       requiresAuth: true,
       areasTrabajoRestringidas: ["Empleado normal"]
@@ -67,21 +90,39 @@ const router = new Router({
     }
   },
   {
-    path: '/trabajadores/ver/:idTrabajador',
-    name: 'VerTrabajador',
-    component: VerTrabajador,
+    path: '/vacunas/registrar',
+    name: 'RegistrarVacuna',
+    component: FormularioVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal"]
+      areasTrabajoRestringidas: ["Direccion"]
     }
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/vacunas/ver/:idVacuna',
+    name: 'VerVacuna',
+    component: VerVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: []
+      areasTrabajoRestringidas: ["Direccion"]
+    }
+  },
+  {
+    path: '/vacunas/editar/:idVacuna',
+    name: 'EditarVacuna',
+    component: FormularioVacuna,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Direccion"]
+    }
+  },
+  {
+    path: '/vacunas',
+    name: 'Vacunas',
+    component: Vacunas,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Direccion"]
     }
   },
   {

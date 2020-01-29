@@ -2,14 +2,20 @@
   <div>
     <!-- HEADER -->
     <Header />
-    <div
-      id="logo"
-      class="align-self-center d-flex align-items-center justify-content-center rounded-circle bg-white shadow"
+
+    <div class="align-self-center d-flex align-items-center flex-column">
+      <div
+        id="logo"
+        class="d-flex align-items-center justify-content-center rounded-circle bg-white shadow"
       >
-      <!-- Logo de la empresa -->
-      <b-media>
-        <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
-      </b-media>
+        <!-- Logo de la empresa -->
+        <b-media>
+          <img src="@/assets/logo.png" alt="Logo de la empresa" width="140px" />
+        </b-media>
+      </div>
+
+      <h5 class="mt-2 text-white">Nombre Persona Logeada</h5>
+      <h6 class="d-inline text-white">Rol: Poner aqui el rol</h6>
     </div>
 
     <!-- FOOTER -->
