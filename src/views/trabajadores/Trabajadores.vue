@@ -144,12 +144,12 @@ export default {
           this.rows = Object.keys(this.empleados).length;
           for (
             let index = 0;
-            index < Object.keys(this.empleados).length;
+            index < this.rows;
             index++
           ) {
             var id_emp = this.empleados[index]._id;
             this.empleados[index]["ver"] =
-              '<a href= "trabajadores/ver/' +
+              '<a href="trabajadores/ver/' +
               id_emp +
               '" class="btn btn-info"> <i class="fas fa-user"></i></a>';
             this.empleados[index]["editar"] =
@@ -173,7 +173,6 @@ export default {
     eliminarEmpleado(id) {
       this.$bvModal
         .msgBoxConfirm("Deseas eliminar este trabajador?", {
-          title: "Confirmación",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",

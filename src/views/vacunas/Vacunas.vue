@@ -116,7 +116,6 @@ export default {
     eliminarVacuna(id) {
       this.$bvModal
         .msgBoxConfirm("Deseas eliminar esta vacuna?", {
-          title: "Confirmación",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",
