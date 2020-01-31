@@ -78,6 +78,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Container from '@/components/Container.vue';
+import axios from 'axios';
 
 export default {
   name: "Vacunas",
@@ -88,6 +89,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
         filtro: '',
       // ----- Datos de la tabla
       camposVacunas: [
@@ -111,7 +113,41 @@ export default {
   },
   methods: {
     obtenerVacunas(){
-      
+
+      axios({
+        method: "GET",
+        url: this.baseUrl + '/vacunas',
+        withCredentials: true
+      })
+      .then(res => {
+        this.vacunas = res.data.datos;
+
+        this.rows=Object.keys(this.vacunas).length;
+        for (
+          let index = 0;
+          index < this.rows;
+          index++
+        ) {
+          var id_vac = this.vacunas[index]._id;
+          this.vacunas[index]["ver"] =
+            '<a href="vacunas/ver/' + id_vac + 
+            '" class="btn btn-info"> <i class="fas fa-user"></i></a>';
+          this.vacunas[index]["editar"] = 
+            '<a  href="vacunas/editar/' +
+            id_vac +
+            '" class="btn btn-success"><i class="fas fa-user-edit"></i></a>';
+          this.vacunas[index]["eliminar"] = id_vac;
+        }
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        });
     },
     eliminarVacuna(id) {
       this.$bvModal
