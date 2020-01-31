@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      trabajador: {},
+      trabajador: JSON.parse(localStorage.getItem("usertoken")).datos,
        // ----- Datos de la tabla
       camposVacunas: [
         {key:"nombre", sortable: true}, 
