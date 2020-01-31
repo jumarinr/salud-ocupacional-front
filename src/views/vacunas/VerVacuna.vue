@@ -16,7 +16,7 @@
               <b-tr class="text-center">
                 <b-td stacked-heading="Cantidad de veces a aplicar:">{{this.vacuna.cantidadAplicar}}</b-td>
                 <b-td stacked-heading="Periodicidad:">{{this.vacuna.periodicidad}}</b-td>
-                <b-td stacked-heading="Entidad que presta el servicio:">SURA</b-td>
+                <b-td stacked-heading="Entidad que presta el servicio:">{{this.vacuna.prestadorServicio}}</b-td>
                 <b-td class="p-3" stacked-heading="Descripción:">{{this.vacuna.descripcion}}</b-td>
               </b-tr>
             </b-tbody>
