@@ -8,20 +8,16 @@
         <div class="w-100">
           <!-- Datos trabajador -->
           <b-button to="/vacunas" class="my-3 float-right" variant="primary">Volver</b-button>
-          <h4 class="my-3 float-left">Ebola</h4>
+          <h4 class="my-3 float-left">{{this.vacuna.nombre}}</h4>
         </div>
         <div class="w-100">
           <b-table-simple stacked class="rounded shadow">
             <b-tbody>
               <b-tr class="text-center">
-                <b-td stacked-heading="Cantidad de veces a aplicar:">3 veces</b-td>
-                <b-td stacked-heading="Periodicidad:">128 dias</b-td>
-                <b-td stacked-heading="Entidad que presta el servicio:">SURA</b-td>
-                <b-td class="p-3" stacked-heading="Descripción:">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit enim cumque fugiat, asperiores cum fuga saepe dicta quos repellat! Nam neque voluptatem delectus libero, amet pariatur vel saepe debitis laudantium!
-                  Molestias harum incidunt laboriosam? Eligendi non facilis ipsam impedit voluptatibus aliquam dolores est veritatis maxime deserunt. Fuga hic harum magnam. Eveniet, rerum nam doloremque delectus soluta corrupti facilis commodi minima!
-                  Ullam vero impedit, laboriosam blanditiis corrupti aut earum ratione, repudiandae excepturi nulla fugiat quisquam iste, quas ipsum! Dolorum illum laboriosam dolor iste minus? Rem unde quae corrupti enim nobis aliquid.
-                </b-td>
+                <b-td stacked-heading="Cantidad de veces a aplicar:">{{this.vacuna.cantidadAplicar}}</b-td>
+                <b-td stacked-heading="Periodicidad:">{{this.vacuna.periodicidad}}</b-td>
+                <b-td stacked-heading="Entidad que presta el servicio:">{{this.vacuna.prestadorServicio}}</b-td>
+                <b-td class="p-3" stacked-heading="Descripción:">{{this.vacuna.descripcion}}</b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -58,7 +54,24 @@ export default {
     this.obtenerDatosVacuna();
   },
   methods: {
-    obtenerDatosVacuna() {}
+    obtenerDatosVacuna() {
+      axios({
+        method: "GET",
+        url: this.baseUrl + "/vacunas/" + this.idVacuna,
+        withCredentials: true
+      }).then(res => {
+        this.vacuna = res.data.datos;
+      }).catch((error) =>{
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem('usertoken')
+          localStorage.removeItem("authenticated")
+          localStorage.removeItem("areaTrabajo")
+          localStorage.removeItem("id")
+          this.$router.push("/")
+        }  
+      })
+    }
   }
 };
 </script>
