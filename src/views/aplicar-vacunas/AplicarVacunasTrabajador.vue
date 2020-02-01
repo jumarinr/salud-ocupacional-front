@@ -167,13 +167,24 @@ export default {
           this.trabajador.detallesVacunacion.forEach(function(
             detalleVacunacion
           ) {
+            var proximaFechaDeAplicacion = "--"
+
+            if (detalleVacunacion.aplicaciones.length > 0) {
+              var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0].split("-")
+              proximaFechaDeAplicacion = new Date()
+              proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
+              proximaFechaDeAplicacion.setMonth(ultimaFechaDeAplicacion[1])
+              proximaFechaDeAplicacion.setDate(Number(ultimaFechaDeAplicacion[2]) + detalleVacunacion.vacuna.periodicidad)
+              proximaFechaDeAplicacion = proximaFechaDeAplicacion.getDate() + "/" + proximaFechaDeAplicacion.getMonth() + "/" + proximaFechaDeAplicacion.getFullYear()
+            }
+
             vacunas.push({
               nombre: detalleVacunacion.vacuna.nombre,
               cantidadAplicada:
                 detalleVacunacion.cantidadAplicada +
                 " de " +
                 detalleVacunacion.vacuna.cantidadAplicar,
-              proximaFechaDeAplicacion: 0 //TODO: conectar con lo que falta
+              proximaFechaDeAplicacion: proximaFechaDeAplicacion
             });
           });
           this.vacunas = vacunas;
