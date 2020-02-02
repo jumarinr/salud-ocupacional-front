@@ -29,11 +29,11 @@
             >
               <!-- Funcionalidad de aplicar vacuna -->
               <template v-slot:cell(aplicar)="data">
-                <button @click="setFechaUltimaAplicacion(''); $bvModal.show('bv-modal-aplicar-vacuna')" class="btn btn-success">
+                <button @click="setFechaUltimaAplicacion(''); $bvModal.show(data.item.id + 'aplicar')" class="btn btn-success">
                   <i class="fas fa-syringe"></i>
                 </button>
 
-                <b-modal id="bv-modal-aplicar-vacuna" hide-footer>
+                <b-modal :id="data.item.id + 'aplicar'" hide-footer>
                   <template v-slot:modal-title>Ingresar fecha de la última aplicación:</template>
 
                   <div class="d-block text-center">
@@ -49,18 +49,18 @@
                     class="mt-3 btn-success"
                     block
                     v-on:click="aplicarVacuna(data)"
-                    @click="$bvModal.hide('bv-modal-aplicar-vacuna')"
+                    @click="$bvModal.hide(data.item.id + 'aplicar')"
                   >Guardar</b-button>
                 </b-modal>
               </template>
 
               <!-- Funcionalidad de editar vacuna -->
               <template v-slot:cell(editar)="data">
-                <button :disabled="data.item.aplicacionesHechas == 0" @click="setFechaUltimaAplicacion(data.item.fechaUltimaAplicacion); $bvModal.show('bv-modal-editar-vacuna')" class="btn btn-info">
+                <button :disabled="data.item.aplicacionesHechas == 0" @click="setFechaUltimaAplicacion(data.item.fechaUltimaAplicacion); $bvModal.show(data.item.id + 'editar')" class="btn btn-info">
                   <i class="fas fa-edit"></i>
                 </button>
 
-                <b-modal id="bv-modal-editar-vacuna" hide-footer>
+                <b-modal :id="data.item.id + 'editar'" hide-footer>
                   <template v-slot:modal-title>Editar fecha de la última aplicación:</template>
 
                   <div class="d-block text-center">
@@ -76,7 +76,7 @@
                     class="mt-3 btn-info"
                     block
                     v-on:click="editarVacuna(data)"
-                    @click="$bvModal.hide('bv-modal-editar-vacuna')"
+                    @click="$bvModal.hide(data.item.id + 'editar')"
                   >Editar</b-button>
                 </b-modal>
               </template>
