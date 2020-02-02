@@ -34,7 +34,7 @@
                 </button>
 
                 <b-modal id="bv-modal-aplicar-vacuna" hide-footer>
-                  <template v-slot:modal-title>Ingresar fecha de la última aplicación</template>
+                  <template v-slot:modal-title>Ingresar fecha de la última aplicación:</template>
 
                   <div class="d-block text-center">
                     <input
@@ -179,9 +179,10 @@ export default {
             }
 
             vacunas.push({
+              id: detalleVacunacion.vacuna._id,
               nombre: detalleVacunacion.vacuna.nombre,
               cantidadAplicada:
-                detalleVacunacion.cantidadAplicada +
+                detalleVacunacion.aplicaciones.length +
                 " de " +
                 detalleVacunacion.vacuna.cantidadAplicar,
               proximaFechaDeAplicacion: proximaFechaDeAplicacion
@@ -200,7 +201,35 @@ export default {
           }
         });
     },
-    aplicarVacuna(vacuna) {},
+    aplicarVacuna(vacuna) {
+      axios({
+        method: "POST",
+        url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + vacuna.item.id,
+        withCredentials: true,
+        data: {
+          fechaAplicacion: this.fechaUltimaAplicacion
+        }
+      }).then(res => {
+        this.$bvModal.msgBoxOk(res.data.mensaje, {
+          buttonSize: 'sm',
+          okVariant: res.data.error == false ? "success" : "danger"
+        }).then(value => {
+          if (res.data.error == false) {
+            // Refrescar la página para mostrar los cambios
+            this.$router.go()
+          }
+        })
+      }).catch(error => {
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem("usertoken");
+          localStorage.removeItem("authenticated");
+          localStorage.removeItem("areaTrabajo");
+          localStorage.removeItem("id");
+          this.$router.push("/");
+        }
+      })
+    },
     editarVacuna(vacuna) {},
     eliminarVacuna(vacuna) {
       this.$bvModal
