@@ -56,7 +56,7 @@
 
               <!-- Funcionalidad de editar vacuna -->
               <template v-slot:cell(editar)="data">
-                <button @click="setFechaUltimaAplicacion(data.item.fechaUltimaAplicacion); $bvModal.show('bv-modal-editar-vacuna')" class="btn btn-info">
+                <button :disabled="data.item.aplicacionesHechas == 0" @click="setFechaUltimaAplicacion(data.item.fechaUltimaAplicacion); $bvModal.show('bv-modal-editar-vacuna')" class="btn btn-info">
                   <i class="fas fa-edit"></i>
                 </button>
 
@@ -83,7 +83,7 @@
 
               <!-- Funcionalidad de eliminar vacuna -->
               <template v-slot:cell(eliminar)="data">
-                <button v-on:click="eliminarVacuna(data)" class="btn btn-danger">
+                <button :disabled="data.item.aplicacionesHechas == 0" v-on:click="eliminarVacuna(data)" class="btn btn-danger">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </template>
@@ -186,7 +186,8 @@ export default {
                 " de " +
                 detalleVacunacion.vacuna.cantidadAplicar,
               proximaFechaDeAplicacion: proximaFechaDeAplicacion,
-              fechaUltimaAplicacion: String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0]
+              fechaUltimaAplicacion: String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0],
+              aplicacionesHechas: detalleVacunacion.aplicaciones.length
             });
           });
           this.vacunas = vacunas;
