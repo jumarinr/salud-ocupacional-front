@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Footer from "@/components/Footer.vue";
@@ -78,6 +79,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
       trabajador: JSON.parse(localStorage.getItem("usertoken")).datos,
        // ----- Datos de la tabla
       camposVacunas: [
@@ -92,6 +94,43 @@ export default {
       perPage: 10,
       currentPage: 1
     };
+  },
+  created() {
+    this.obtenerVacunas();
+  },
+  methods: {
+    obtenerVacunas() {
+      axios({
+        method: "GET", 
+        url: this.baseUrl + "/empleados/" + this.trabajador._id, 
+        withCredentials: true
+      }).then(res => {
+        this.trabajador = res.data.datos;
+        if (this.trabajador.celular == null) {
+          this.trabajador.celular = "N/A";
+        }
+        var vacunas = [];
+        var estado = false;
+        this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
+          vacunas.push({
+            nombre: detalleVacunacion.vacuna.nombre,
+            cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
+            proximaFechaDeAplicacion: detalleVacunacion.cantidadAplicada == 3 ? <span>:)</span> : 0, //TODO: conectar con lo que falta
+            _rowVariant:detalleVacunacion.cantidadAplicada == 0 ? 'danger' : detalleVacunacion.vacuna.cantidadAplicada == detalleVacunacion.cantidadAplicada ? 'success' : ''
+          });
+        });
+        this.vacunas = vacunas;
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
+          }
+        })
+    }
   },
   computed: {
       rows() {
