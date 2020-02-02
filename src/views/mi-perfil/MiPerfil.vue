@@ -110,13 +110,12 @@ export default {
           this.trabajador.celular = "N/A";
         }
         var vacunas = [];
-        var estado = false;
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
             cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
-            proximaFechaDeAplicacion: detalleVacunacion.cantidadAplicada == 3 ? <span>:)</span> : 0, //TODO: conectar con lo que falta
-            _rowVariant:detalleVacunacion.cantidadAplicada == 0 ? 'danger' : detalleVacunacion.vacuna.cantidadAplicada == detalleVacunacion.cantidadAplicada ? 'success' : ''
+            proximaFechaDeAplicacion: detalleVacunacion.cantidadAplicada == detalleVacunacion.vacuna.cantidadAplicar ? '✔' : 0, //TODO: conectar con lo que falta
+            _rowVariant:detalleVacunacion.cantidadAplicada == 0 ? 'danger' : detalleVacunacion.cantidadAplicada == detalleVacunacion.vacuna.cantidadAplicar ? 'success' : ''
           });
         });
         this.vacunas = vacunas;
