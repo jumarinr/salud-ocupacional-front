@@ -262,21 +262,42 @@ export default {
     },
     eliminarVacuna(vacuna) {
       this.$bvModal
-        .msgBoxConfirm("Deseas eliminar la última fecha de aplicación?", {
+        .msgBoxConfirm("¿Desea eliminar la última fecha de aplicación?", {
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",
-          okTitle: "Elíminar!",
-          cancelTitle: "Cancelar!",
+          okTitle: "Eliminar",
+          cancelTitle: "Cancelar",
           footerClass: "p-2",
           hideHeaderClose: false,
           centered: true
         })
         .then(value => {
           if (value) {
-            // AQUI VA EL CODIGO PARA ELIMINAR LA ULTIMA FECHA DE APLICACION
-          } else {
-            console.log("Cancelado");
+            axios({
+              method: "DELETE",
+              url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + vacuna.item.id,
+              withCredentials: true
+            }).then(res => {
+              this.$bvModal.msgBoxOk(res.data.mensaje, {
+                buttonSize: 'sm',
+                okVariant: res.data.error == false ? "success" : "danger"
+              }).then(value => {
+                if (res.data.error == false) {
+                  // Refrescar la página para mostrar los cambios
+                  this.$router.go()
+                }
+              })
+            }).catch(error => {
+              // Ya no existe la sesión en el servidor
+              if (error.response.status == 405) {
+                localStorage.removeItem("usertoken");
+                localStorage.removeItem("authenticated");
+                localStorage.removeItem("areaTrabajo");
+                localStorage.removeItem("id");
+                this.$router.push("/");
+              }
+            })
           }
         })
         .catch(err => {
