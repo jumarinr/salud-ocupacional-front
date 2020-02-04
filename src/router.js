@@ -1,20 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from './views/nucleo/Login'
-import Home from './views/nucleo/Home'
-import MiPerfil from './views/mi-perfil/MiPerfil'
-
-import Vacunas from './views/vacunas/Vacunas'
-import VerVacuna from './views/vacunas/VerVacuna'
-import FormularioVacuna from './views/vacunas/FormularioVacuna'
-
-import AplicarVacunas from './views/aplicar-vacunas/AplicarVacunas'
-import AplicarVacunasTrabajador from './views/aplicar-vacunas/AplicarVacunasTrabajador'
-
-import Trabajadores from './views/trabajadores/Trabajadores'
-import VerTrabajador from './views/trabajadores/VerTrabajador'
-import FormularioTrabajador from './views/trabajadores/FormularioTrabajador'
+import Login from './views/Login'
+import FormularioTrabajador from './views/FormularioTrabajador'
+import RegistrarVacuna from './views/RegistrarVacuna'
+import Trabajadores from './views/Trabajadores'
+import VerTrabajador from './views/VerTrabajador'
+import Home from './views/Home'
 
 Vue.use(Router)
 
@@ -39,36 +31,18 @@ const router = new Router({
     }
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/vacunas/registrar',
+    name: 'RegistrarVacuna',
+    component: RegistrarVacuna,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: []
-    }
-  },
-  {
-    path: '/miPerfil',
-    name: 'MiPerfil',
-    component: MiPerfil,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: []
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
     }
   },
   {
     path: '/trabajadores/registrar',
     name: 'RegistrarTrabajador',
     component: FormularioTrabajador,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal"]
-    }
-  },
-  {
-    path: '/trabajadores/ver/:idTrabajador',
-    name: 'VerTrabajador',
-    component: VerTrabajador,
     meta: {
       requiresAuth: true,
       areasTrabajoRestringidas: ["Empleado normal"]
@@ -93,57 +67,21 @@ const router = new Router({
     }
   },
   {
-    path: '/vacunas/registrar',
-    name: 'RegistrarVacuna',
-    component: FormularioVacuna,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
-    }
-  },
-  {
-    path: '/vacunas/ver/:idVacuna',
-    name: 'VerVacuna',
-    component: VerVacuna,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
-    }
-  },
-  {
-    path: '/vacunas/editar/:idVacuna',
-    name: 'EditarVacuna',
-    component: FormularioVacuna,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
-    }
-  },
-  {
-    path: '/vacunas',
-    name: 'Vacunas',
-    component: Vacunas,
-    meta: {
-      requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
-    }
-  },
-  {
-    path: '/vacunas/aplicar',
-    name: 'AplicarVacunas',
-    component: AplicarVacunas,
+    path: '/trabajadores/ver/:idTrabajador',
+    name: 'VerTrabajador',
+    component: VerTrabajador,
     meta: {
       requiresAuth: true,
       areasTrabajoRestringidas: ["Empleado normal"]
     }
   },
   {
-    path: '/vacunas/aplicar/:idTrabajador',
-    name: 'AplicarVacunasTrabajador',
-    component: AplicarVacunasTrabajador,
+    path: '/home',
+    name: 'Home',
+    component: Home,
     meta: {
       requiresAuth: true,
-      areasTrabajoRestringidas: ["Empleado normal"]
+      areasTrabajoRestringidas: []
     }
   },
   {
