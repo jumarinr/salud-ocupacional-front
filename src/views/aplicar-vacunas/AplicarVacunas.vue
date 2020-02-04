@@ -124,7 +124,6 @@ export default {
       })
         .then(res => {
           this.trabajadores = res.data.datos;
-
           // Se filtran los directores y al usuario ya que no tiene sentido
           // que este puede eliminar a algún director, a sí mismo o a otro trabajador de salud (a excepción
           // de que el usuario sea un director).
@@ -155,7 +154,7 @@ export default {
                           this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Vacuna completa"
                           vacunaCompleta ++
                         }else{
-                          var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[0]))
+                          var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length - 1]))
                           if(Math.floor((hoy.getTime() - ultimaAplicacion.getTime())/(1000*60*60*24)) > this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.periodicidad){
                             this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Atrasado"
                             cantAtrasadas ++
@@ -168,6 +167,10 @@ export default {
                         cantAtrasadas ++
                       }
                   }
+
+                  if(vacunaCompleta == this.trabajadores[index].detallesVacunacion.length){
+                    this.trabajadores[index]["estadoGeneral"] = "completoTodo"
+                  }
                 }else{
                   cantAtrasadas ++
                 }
@@ -179,15 +182,10 @@ export default {
                   this.trabajadores[index]["estadoGeneral"] = "al dia"
                 }
                 
-                if(vacunaCompleta == this.trabajadores[index].detallesVacunacion.length){
-                  this.trabajadores[index]["estadoGeneral"] = "completoTodo"
-                }
-
+                
+                
           }
 
-          
-
-          //console.log(this.trabajadores)
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
@@ -203,10 +201,8 @@ export default {
     filtrarTrabajadores(filtro) {
       if (filtro == "AL DIA") {
         this.filtroTrabajador = 'al dia'
-        console.log(this.trabajadores)
       } else if (filtro == "ATRASADOS") {
         this.filtroTrabajador = 'atrasado'
-        console.log(this.trabajadores)
       }
     }, 
 
