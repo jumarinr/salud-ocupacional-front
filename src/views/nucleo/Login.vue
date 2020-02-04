@@ -60,7 +60,7 @@ export default {
        if(res.data.error){
          this.error = res.data.error;
        }else{
-       localStorage.setItem('usertoken', res.data)
+       localStorage.setItem('usertoken', JSON.stringify(res.data))
        localStorage.setItem('authenticated', true)
        localStorage.setItem('areaTrabajo', JSON.parse(res.headers.session).areaTrabajo)
        localStorage.setItem('id', JSON.parse(res.headers.session).id)
