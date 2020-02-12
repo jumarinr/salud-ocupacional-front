@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Footer from "@/components/Footer.vue";
