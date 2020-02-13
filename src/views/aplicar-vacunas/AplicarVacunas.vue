@@ -162,9 +162,6 @@ export default {
                             this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Al dia"
                           }
                         }
-                      }else {
-                        this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "No hay registro de aplicaciones"
-                        cantAtrasadas ++
                       }
                   }
 
@@ -182,10 +179,11 @@ export default {
                   this.trabajadores[index]["estadoGeneral"] = "al dia"
                 }
                 
+                 
                 
                 
           }
-
+           console.log(this.trabajadores);
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
