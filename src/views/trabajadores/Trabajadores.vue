@@ -158,8 +158,6 @@ export default {
               '" class="btn btn-success"><i class="fas fa-user-edit"></i></a>';
             this.empleados[index]["eliminar"] = id_emp;
           }
-
-          console.log(this.empleados)
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
@@ -191,7 +189,7 @@ export default {
               url: this.baseUrl + "/empleados/" + id,
               withCredentials: true
             })
-              .then((res) => {
+              .then(res => {
                 this.empleados = this.empleados.filter(empleado => {
                   return empleado._id != id;
                 });
