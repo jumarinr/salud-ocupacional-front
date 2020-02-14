@@ -181,7 +181,6 @@ export default {
                 
                 
           }
-           console.log(this.trabajadores);
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
