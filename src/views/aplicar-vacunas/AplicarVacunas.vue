@@ -168,8 +168,6 @@ export default {
                   if(vacunaCompleta == this.trabajadores[index].detallesVacunacion.length){
                     this.trabajadores[index]["estadoGeneral"] = "completoTodo"
                   }
-                }else{
-                  cantAtrasadas ++
                 }
 
 
