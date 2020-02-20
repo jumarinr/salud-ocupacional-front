@@ -14,8 +14,8 @@
         </b-media>
       </div>
 
-      <h5 class="mt-2 text-white">Nombre Persona Logeada</h5>
-      <h6 class="d-inline text-white">Rol: Poner aqui el rol</h6>
+      <h5 class="mt-2 text-white">{{usuario.nombres}} {{usuario.apellidos}}</h5> 
+      <h6 class="d-inline text-white">Rol: {{usuario.areaTrabajo}}</h6>
     </div>
 
     <!-- FOOTER -->
@@ -32,6 +32,11 @@ export default {
   components: {
     Header,
     Footer
+  },
+  data(){
+    return{
+      usuario: JSON.parse(localStorage.getItem("usertoken")).datos
+    }
   }
 };
 </script>
