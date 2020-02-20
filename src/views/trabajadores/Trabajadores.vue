@@ -31,6 +31,7 @@
           :items="empleados"
           :fields="camposEmpleados"
           :filter="filtro"
+          :filter-function="filterTable"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -211,6 +212,16 @@ export default {
         .catch(err => {
           // An error occurred
         });
+    },
+    filterTable(row, filtro) {
+      if (row.nombres.toLowerCase().includes(filtro.toLowerCase())){
+        return true;
+      } else if (row.identificacion.includes(filtro)){
+        return true;
+      }
+      else {
+        return false;
+      }
     }
   }
 };

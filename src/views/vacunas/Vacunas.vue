@@ -24,6 +24,7 @@
           :items="vacunas"
           :fields="camposVacunas"
           :filter="filtro"
+          :filter-function="filterTable"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -177,6 +178,13 @@ export default {
         .catch(err => {
           // An error occurred
         });
+    },
+    filterTable(row, filtro) {
+      if(row.nombre.toLowerCase().includes(filtro.toLowerCase())){
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

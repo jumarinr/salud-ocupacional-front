@@ -37,6 +37,7 @@
           :items="trabajadores"
           :fields="campostrabajadores"
           :filter="filtroTrabajador"
+          :filter-function="filterTable"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -162,6 +163,16 @@ export default {
 
       } else if (filtro == "ATRASADOS") {
 
+      }
+    },
+    filterTable(row, filtroTrabajador) {
+      if (row.nombres.toLowerCase().includes(filtroTrabajador.toLowerCase())){
+        return true;
+      } else if (row.identificacion.includes(filtroTrabajador)){
+        return true;
+      }
+      else {
+        return false;
       }
     }
   }
