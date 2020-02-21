@@ -113,6 +113,7 @@ export default {
   },
   created() {
     this.obtenertrabajadores();
+    this.filtarCompletos();
   },
   methods: {
     obtenertrabajadores() {
@@ -123,7 +124,6 @@ export default {
       })
         .then(res => {
           this.trabajadores = res.data.datos;
-
           // Se filtran los directores y al usuario ya que no tiene sentido
           // que este puede eliminar a algún director, a sí mismo o a otro trabajador de salud (a excepción
           // de que el usuario sea un director).
@@ -138,12 +138,46 @@ export default {
           });
 
           this.rows = Object.keys(this.trabajadores).length;
+          var hoy = new Date()
           for (let index = 0; index < this.rows; index++) {
             var id_emp = this.trabajadores[index]._id;
             this.trabajadores[index]["vacunas"] =
               '<a href="aplicar/' +
               id_emp +
               '" class="btn btn-info"> <i class="fas fa-eye"></i></a>';
+          var cantAtrasadas = 0
+          var vacunaCompleta = 0
+                if(this.trabajadores[index].detallesVacunacion.length > 0){
+                  for (let indexDetalles = 0; indexDetalles < this.trabajadores[index].detallesVacunacion.length; indexDetalles++){ 
+                      if(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length > 0){
+                        if(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length == this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.cantidadAplicar){
+                          this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Vacuna completa"
+                          vacunaCompleta ++
+                        }else{
+                          var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length - 1]))
+                          if(Math.floor((hoy.getTime() - ultimaAplicacion.getTime())/(1000*60*60*24)) > this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.periodicidad){
+                            this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Atrasado"
+                            cantAtrasadas ++
+                          }else{
+                            this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Al dia"
+                          }
+                        }
+                      }
+                  }
+
+                  if(vacunaCompleta == this.trabajadores[index].detallesVacunacion.length){
+                    this.trabajadores[index]["estadoGeneral"] = "completoTodo"
+                  }
+                }
+                if(cantAtrasadas > 0){
+                  this.trabajadores[index]["estadoGeneral"] = "atrasado"
+                }else{
+                  this.trabajadores[index]["estadoGeneral"] = "al dia"
+                }
+                
+                 
+                
+                
           }
         })
         .catch(error => {
@@ -159,10 +193,14 @@ export default {
     },
     filtrarTrabajadores(filtro) {
       if (filtro == "AL DIA") {
-
+        this.filtroTrabajador = 'al dia'
       } else if (filtro == "ATRASADOS") {
-
+        this.filtroTrabajador = 'atrasado'
       }
+    }, 
+
+    filtarCompletos(){
+      this.trabajadores = this.trabajadores.filter(trabajador => trabajador.estadoGeneral !== "completoTodo")
     }
   }
 };
