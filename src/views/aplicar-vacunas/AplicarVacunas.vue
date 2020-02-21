@@ -37,6 +37,7 @@
           :items="trabajadores"
           :fields="campostrabajadores"
           :filter="filtroTrabajador"
+          :filterIncludedFields="filterOn"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -104,6 +105,7 @@ export default {
         { key: "vacunas", sortable: false }
       ],
       trabajadores: [],
+      filterOn: ["nombres", "identificacion", "estadoGeneral"],
       // ----- Datos del pagination
       rows: 1,
       perPage: 50,
