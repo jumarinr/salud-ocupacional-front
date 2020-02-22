@@ -24,6 +24,7 @@
           :items="vacunas"
           :fields="camposVacunas"
           :filter="filtro"
+          :filterIncludedFields="filterOn"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -101,6 +102,7 @@ export default {
       vacunas: [
 
       ],
+      filterOn: ["nombre"],
       // ----- Datos del pagination
       rows: 1,
       perPage: 20,
