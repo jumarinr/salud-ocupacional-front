@@ -26,7 +26,7 @@
               <div class="col-sm-11">
                 <b-form-input
                   type="number"
-                  min="0"
+                  min="1"
                   v-model="cantidadAplicar"
                   id="cantidad-aplicacion"
                   placeholder="Cantidad de veces a aplicar"
