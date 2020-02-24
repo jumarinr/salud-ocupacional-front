@@ -31,6 +31,7 @@
           :items="empleados"
           :fields="camposEmpleados"
           :filter="filtro"
+          :filterIncludedFields="filterOn"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -108,6 +109,7 @@ export default {
         { key: "eliminar", sortable: false }
       ],
       empleados: [],
+      filterOn: ["nombres", "identificacion"],
       // ----- Datos del pagination
       rows: 1,
       perPage: 50,

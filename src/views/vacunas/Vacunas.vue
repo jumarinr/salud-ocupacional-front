@@ -24,6 +24,7 @@
           :items="vacunas"
           :fields="camposVacunas"
           :filter="filtro"
+          :filterIncludedFields="filterOn"
           :per-page="perPage"
           :current-page="currentPage"
           :sort-by.sync="sortBy"
@@ -101,6 +102,7 @@ export default {
       vacunas: [
 
       ],
+      filterOn: ["nombre"],
       // ----- Datos del pagination
       rows: 1,
       perPage: 20,
@@ -138,6 +140,7 @@ export default {
             '" class="btn btn-success"><i class="fas fa-user-edit"></i></a>';
           this.vacunas[index]["eliminar"] = id_vac;
         }
+        console.log(this.vacunas)
       }).catch((error) =>{
           // Ya no existe la sesión en el servidor
           if (error.response.status == 405) {
@@ -163,13 +166,26 @@ export default {
         })
         .then(value => {
           if (value) {
-
-
-
-            // TODO: AQUI VA EL CODIGO PARA ELIMINAR LA VACUNA TANTO EN EL FRONT COMO EN EL BACK
-
-
-
+            axios({
+              method: "DELETE",
+              url: this.baseUrl + "/vacunas/" + id,
+              withCredentials: true
+            })
+              .then(res => {
+                this.vacunas = this.vacunas.filter(vacuna => {
+                  return vacuna._id != id;
+                });
+              })
+              .catch(error => {
+                // Ya no existe la sesión en el servidor
+                if (error.response.status == 405) {
+                  localStorage.removeItem("usertoken");
+                  localStorage.removeItem("authenticated");
+                  localStorage.removeItem("areaTrabajo");
+                  localStorage.removeItem("id");
+                  this.$router.push("/");
+                }
+              });
           } else {
             console.log("Cancelado");
           }
