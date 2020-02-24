@@ -12,7 +12,7 @@
 
         <!-- Formulario -->
         <div class="flex-grow-1 my-2">
-          <b-form @submit.prevent="registrarVacuna">
+          <b-form @submit.prevent="funcionModo">
             <b-form-group>
               <b-form-input
                 v-model="nombre"
@@ -70,7 +70,7 @@
               <div class="alert alert-danger">{{error.mensaje}}</div>
             </div>
             <!-- Botón Registrar -->
-            <b-button class="float-right" type="submit" variant="primary">Registrar</b-button>
+            <b-button class="float-right" type="submit" variant="primary">{{ modoEdicion ? 'Editar' : 'Registrar'}}</b-button>
           </b-form>
         </div>
       </div>
@@ -97,6 +97,7 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_BASE_URL,
+      modoEdicion: !!this.$route.params.idVacuna,
       nombre: "",
       descripcion: "",
       periodicidad: "",
@@ -122,9 +123,6 @@ export default {
       })
         .then(res => {
           this.error = res.data;
-
-          // eslint-disable-next-line
-          console.log(res.data);
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
@@ -142,16 +140,63 @@ export default {
       this.periodicidad = "";
       this.cantidadAplicar = "";
       this.prestadorServicio = "";
+    },
+    editarVacuna() {
+      axios({
+        method: "PUT",
+        url: this.baseUrl + "/vacunas/" + this.$route.params.idVacuna,
+        withCredentials: true,
+        data: {
+          nombre: this.nombre,
+          descripcion: this.descripcion,
+          periodicidad: this.periodicidad,
+          cantidadAplicar: this.cantidadAplicar,
+          prestadorServicio: this.prestadorServicio
+        }
+      }).then(res => {
+        this.error = res.data;
+      }).catch((error) =>{
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem('usertoken')
+          localStorage.removeItem("authenticated")
+          localStorage.removeItem("areaTrabajo")
+          localStorage.removeItem("id")
+          this.$router.push("/")
+        }
+      })
+    },
+    funcionModo() {
+      if (this.modoEdicion) {
+        return this.editarVacuna()
+      }
+      return this.registrarVacuna()
     }
-
-    /*obtenerVacunas(){
-                fetch('/vacunas')
-                    .then(res => res.json())
-                    .then(data => {
-                        this.tasks = data;
-                        console.log(this.tasks)
-                    });
-            }*/
+  },
+  created() {
+    // Se consultan e insertan en el formulario los datos de la vacuna a editar
+    if (this.modoEdicion) {
+      axios({
+        method: "GET",
+        url: this.baseUrl + "/vacunas/" + this.$route.params.idVacuna,
+        withCredentials: true
+      }).then(res => {
+        this.nombre = res.data.datos.nombre
+        this.descripcion = res.data.datos.descripcion
+        this.periodicidad = res.data.datos.periodicidad
+        this.cantidadAplicar = res.data.datos.cantidadAplicar
+        this.prestadorServicio = res.data.datos.prestadorServicio
+      }).catch((error) =>{
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem('usertoken')
+          localStorage.removeItem("authenticated")
+          localStorage.removeItem("areaTrabajo")
+          localStorage.removeItem("id")
+          this.$router.push("/")
+        }
+      })
+    }
   }
 };
 </script>
