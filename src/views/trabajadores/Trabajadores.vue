@@ -139,7 +139,8 @@ export default {
                 empleado.areaTrabajo != "Direccion" &&
                 empleado.areaTrabajo == "Empleado salud" &&
                 localStorage.getItem("areaTrabajo") == "Direccion") ||
-              empleado.areaTrabajo == "Empleado normal"
+              empleado.areaTrabajo == "Empleado normal" ||
+              localStorage.getItem("areaTrabajo") == "Direccion"
             );
           });
 
