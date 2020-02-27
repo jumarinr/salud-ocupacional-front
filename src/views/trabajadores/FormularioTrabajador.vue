@@ -63,7 +63,7 @@
                 <label for="nivelRiesgo">Nivel de riesgo laboral</label>
                 <b-form-select v-model="nivelRiesgo" :options="opcionesRiesgo" required></b-form-select>
               </div>
-              <div class="form-check">
+              <div v-if="areaTrabajo() == 'Direccion'" class="form-check">
                 <input class="form-check-input" v-model="tipoTrabajador" type="checkbox" value="tipoTrabajador" id="tipoTrabajador" />
                 <label class="form-check-label" for="tipoTrabajador">¿El trabajador se desempeña en el área de salud y seguridad en el trabajo?</label>
               </div>
@@ -281,6 +281,9 @@ export default {
         return this.editarTrabajador()
       }
       return this.registrarTrabajador()
+    },
+    areaTrabajo() {
+      return localStorage.getItem("areaTrabajo");
     }
   },
   created: function () {
