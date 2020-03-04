@@ -26,9 +26,6 @@
           :items="trabajadores"
           :fields="campostrabajadores"
           :filter="filtroTrabajador"
-          :filterIncludedFields="filterOn"
-          :per-page="perPage"
-          :current-page="currentPage"
           :sort-by.sync="sortBy"
           sort-icon-center
         >
@@ -37,34 +34,6 @@
           </template>
         </b-table>
         <!-- End Tabla -->
-
-        <!-- Start Pagination -->
-        <div>
-          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" class="mt-4">
-            <template v-slot:first-text>
-              <span class="text-success">Primero</span>
-            </template>
-            <template v-slot:prev-text>
-              <span class="text-danger">Atras</span>
-            </template>
-            <template v-slot:next-text>
-              <span class="text-warning">Siguiente</span>
-            </template>
-            <template v-slot:last-text>
-              <span class="text-info">Ultimo</span>
-            </template>
-            <template v-slot:ellipsis-text>
-              <b-spinner small type="grow"></b-spinner>
-              <b-spinner small type="grow"></b-spinner>
-              <b-spinner small type="grow"></b-spinner>
-            </template>
-            <template v-slot:page="{ page, active }">
-              <b v-if="active">{{ page }}</b>
-              <i v-else>{{ page }}</i>
-            </template>
-          </b-pagination>
-        </div>
-        <!-- End Pagination -->
       </div>
     </Container>
 
@@ -110,10 +79,6 @@ export default {
       ],
       trabajadores: [],
       filterOn: ["identificacion", "nombres"],
-      // ----- Datos del pagination
-      rows: 1,
-      perPage: 20,
-      currentPage: 1,
       sortBy: "nombres"
     };
   },
