@@ -11,9 +11,6 @@
             <!-- Iconos para especificar la vista -->
             <Stepper paso="1" />
 
-            <!-- Alertas -->
-            <div v-if="error !== null" :class="[error === true ? 'alert-danger' : 'alert-success', 'alert']">{{ mensajeTransaccion }}</div>
-
             <!-- Título del registro -->
             <h4 class="px-sm-5 text-center text-sm-left">{{ modoEdicion ? 'Edición' : 'Registro'}} de trabajador</h4>
 
@@ -249,6 +246,18 @@ export default {
       }).then(res => {
         this.error = res.data.error;
         this.mensajeTransaccion = res.data.mensaje;
+
+        this.$bvModal.msgBoxOk(this.mensajeTransaccion, {
+          title: 'Confirmación',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: this.error ? "danger" : "success",
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true
+        }).then(value => {
+          this.$router.push("/trabajadores")
+        })
       }).catch((error) =>{
           // Ya no existe la sesión en el servidor
           if (error.response.status == 405) {
@@ -259,22 +268,6 @@ export default {
             this.$router.push("/")
           }
         })
-
-      this.nombres= '';
-      this.apellidos= '';
-      this.direccion= '';
-      this.correo= '';
-      this.tipoDocumento= null;
-      this.documento= '';
-      this.telefono= '';
-      this.celular= null;
-      this.nivelRiesgo= null;
-      this.fechaNacimiento= '';
-      this.telefonoFamiliar= '';
-      this.tipoTrabajador= '';
-      this.detallesVacunacion= [];
-      this.ocultar=!this.ocultar;
-      this.mostrarCamposVacios=false;
     },
     funcionModo() {
       if (this.modoEdicion) {
