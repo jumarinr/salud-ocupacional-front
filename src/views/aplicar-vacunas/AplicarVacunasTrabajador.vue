@@ -29,7 +29,7 @@
             >
               <!-- Funcionalidad de aplicar vacuna -->
               <template v-slot:cell(aplicar)="data">
-                <button @click="setFechaUltimaAplicacion(''); $bvModal.show(data.item.id + 'aplicar')" class="btn btn-success">
+                <button @click="setFechaUltimaAplicacion(''); $bvModal.show(data.item.id + 'aplicar')" class="btn btn-success" :disabled="data.item.cantidadAplicar == data.item.aplicacionesHechas">
                   <i class="fas fa-syringe"></i>
                 </button>
 
@@ -188,7 +188,8 @@ export default {
                 detalleVacunacion.vacuna.cantidadAplicar,
               proximaFechaDeAplicacion: proximaFechaDeAplicacion,
               fechaUltimaAplicacion: String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0],
-              aplicacionesHechas: detalleVacunacion.aplicaciones.length
+              aplicacionesHechas: detalleVacunacion.aplicaciones.length,
+              cantidadAplicar: detalleVacunacion.vacuna.cantidadAplicar
             });
           });
           this.vacunas = vacunas;
