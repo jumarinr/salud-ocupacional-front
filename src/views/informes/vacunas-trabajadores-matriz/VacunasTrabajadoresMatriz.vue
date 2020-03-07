@@ -26,6 +26,7 @@
           :items="trabajadores"
           :fields="campostrabajadores"
           :filter="filtroTrabajador"
+          :filterIncludedFields="filterOn"
           :sort-by.sync="sortBy"
           sort-icon-center
         >
