@@ -16,6 +16,10 @@ import Trabajadores from './views/trabajadores/Trabajadores'
 import VerTrabajador from './views/trabajadores/VerTrabajador'
 import FormularioTrabajador from './views/trabajadores/FormularioTrabajador'
 
+import VacunasTrabajadores from './views/informes/vacunas-trabajadores/VacunasTrabajadores'
+import VacunasTrabajador from './views/informes/vacunas-trabajadores/VacunasTrabajador'
+import VacunasTrabajadoresMatriz from './views/informes/vacunas-trabajadores-matriz/VacunasTrabajadoresMatriz'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -144,6 +148,33 @@ const router = new Router({
     meta: {
       requiresAuth: true,
       areasTrabajoRestringidas: ["Empleado normal"]
+    }
+  },
+  {
+    path: '/informes/vacunas/trabajadores',
+    name: 'VacunasTrabajadores',
+    component: VacunasTrabajadores,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
+    }
+  },
+  {
+    path: '/informes/vacunas/trabajador/:idTrabajador',
+    name: 'VacunasTrabajador',
+    component: VacunasTrabajador,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
+    }
+  },
+  {
+    path: '/informes/vacunas/trabajadores/matriz',
+    name: 'VacunasTrabajadoresMatriz',
+    component: VacunasTrabajadoresMatriz,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
     }
   },
   {
