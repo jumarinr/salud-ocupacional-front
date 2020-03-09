@@ -53,8 +53,8 @@
             Aplicar Vacunas
           </b-nav-item>
 
-          <b-nav-item-dropdown text="Información" v-if="areaTrabajo() == 'Direccion'" exact exact-active-class="active"> 
-            <b-dropdown-item href="#" to="/informes/vacunas/trabajadores">Vacunas de empleados</b-dropdown-item>
+          <b-nav-item-dropdown text="Informes" v-if="areaTrabajo() == 'Direccion'" exact exact-active-class="active"> 
+            <b-dropdown-item href="#" to="/informes/vacunas/trabajadores">Vacunas por empleado</b-dropdown-item>
             <b-dropdown-item href="#" to ="/informes/vacunas/trabajadores/matriz">Matriz de vacunas por empleado</b-dropdown-item>
           </b-nav-item-dropdown>           
           
