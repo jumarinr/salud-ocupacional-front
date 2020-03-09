@@ -23,6 +23,7 @@
         <b-table
           class="align-self-stretch shadow border text-center"
           responsive
+          bordered
           :items="trabajadores"
           :fields="campostrabajadores"
           :filter="filtroTrabajador"
@@ -63,28 +64,16 @@ export default {
       campostrabajadores: [
         { key: "identificacion", sortable: true },
         { key: "nombres", sortable: true },
-        { key: "vacuna1", sortable: false },
-        { key: "vacuna2", sortable: false },
-        { key: "vacuna3", sortable: false },
-        { key: "vacuna4", sortable: false },
-        { key: "vacuna5", sortable: false },
-        { key: "vacuna6", sortable: false },
-        { key: "vacuna7", sortable: false },
-        { key: "vacuna8", sortable: false },
-        { key: "vacuna9", sortable: false },
-        { key: "vacuna10", sortable: false },
-        { key: "vacuna11", sortable: false },
-        { key: "vacuna12", sortable: false },
-        { key: "vacuna13", sortable: false },
-        { key: "vacuna14", sortable: false }
       ],
       trabajadores: [],
+      vacunas: [],
       filterOn: ["identificacion", "nombres"],
       sortBy: "nombres"
     };
   },
   created() {
     this.obtenertrabajadores();
+    this.obtenerVacunas();
   },
   methods: {
     obtenertrabajadores() {
@@ -123,16 +112,64 @@ export default {
            *
            *  En el siguiente for se pueden realizar los filtros necesarios para aplicar los colores en las celdas
            */
-          for (let trabajador of this.trabajadores) {
-            if (trabajador.identificacion == "666") {
-              trabajador._cellVariants = {
-                identificacion: "info",
-                nombres: "warning"
-              };
-            } else if (trabajador.identificacion == "999") {
-              trabajador._rowVariant = "danger";
+          this.rows = Object.keys(this.trabajadores).length;
+          var hoy = new Date()
+          for (let index = 0; index < this.rows; index++) {
+            var id_emp = this.trabajadores[index]._id;
+            var cantAtrasadas = 0
+            var vacunaCompleta = 0
+            if(this.trabajadores[index].detallesVacunacion.length > 0){
+              for (let indexDetalles = 0; indexDetalles < this.trabajadores[index].detallesVacunacion.length; indexDetalles++){ 
+                if(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length > 0){
+                  if(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length == this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.cantidadAplicar){
+                    this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Vacuna completa"
+                    vacunaCompleta ++
+                  }else{
+                    var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length - 1]))
+                    if(Math.floor((hoy.getTime() - ultimaAplicacion.getTime())/(1000*60*60*24)) > this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.periodicidad){
+                      this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Atrasado"
+                      cantAtrasadas ++
+                    }else{
+                      this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Al dia"
+                  }
+                    }
+                  }
+              }
+
+              if(vacunaCompleta == this.trabajadores[index].detallesVacunacion.length){
+                this.trabajadores[index]["estadoGeneral"] = "completoTodo"
+              }
             }
+
+            if(cantAtrasadas > 0){
+              this.trabajadores[index]["estadoGeneral"] = "atrasado"
+            }else{
+              this.trabajadores[index]["estadoGeneral"] = "al dia"
+            }
+                     
           }
+
+          for (let trabajador of this.trabajadores) {
+              trabajador._cellVariants = {
+                identificacion: "",
+                nombres: ""
+              };
+              if(trabajador.detallesVacunacion.length > 0){
+                for(let detalle of trabajador.detallesVacunacion){
+                  var color = ""
+                  if(detalle.estado == "Atrasado"){
+                    color = "danger"
+                  }else if(detalle.estado == "Al dia"  || !detalle.estado){
+                    color = "primary"
+                  }else if(detalle.estado == "Vacuna completa"){
+                    color = "success"
+                  }
+                  trabajador._cellVariants[detalle.vacuna.nombre] = color
+                }
+              }
+              
+          }
+          
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
@@ -142,6 +179,30 @@ export default {
             localStorage.removeItem("areaTrabajo");
             localStorage.removeItem("id");
             this.$router.push("/");
+          }
+        });
+    }, 
+
+        obtenerVacunas(){
+
+      axios({
+        method: "GET",
+        url: this.baseUrl + '/vacunas',
+        withCredentials: true
+      })
+      .then(res => {
+        this.vacunas = res.data.datos;
+        for(let vacuna of this.vacunas){
+          this.campostrabajadores.push({key: vacuna.nombre, sortable: false})
+        }
+      }).catch((error) =>{
+          // Ya no existe la sesión en el servidor
+          if (error.response.status == 405) {
+            localStorage.removeItem('usertoken')
+            localStorage.removeItem("authenticated")
+            localStorage.removeItem("areaTrabajo")
+            localStorage.removeItem("id")
+            this.$router.push("/")
           }
         });
     }
