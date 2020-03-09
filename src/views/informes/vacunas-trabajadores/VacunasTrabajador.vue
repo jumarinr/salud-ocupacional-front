@@ -119,13 +119,8 @@ export default {
             vacunas.push({
               id: detalleVacunacion.vacuna._id,
               nombre: detalleVacunacion.vacuna.nombre,
-              cantidadAplicada:
-                detalleVacunacion.aplicaciones.length +
-                " de " +
-                detalleVacunacion.vacuna.cantidadAplicar,
-              proximaFechaDeAplicacion: proximaFechaDeAplicacion,
-              fechaUltimaAplicacion: String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0],
-              aplicacionesHechas: detalleVacunacion.aplicaciones.length
+              cantidadAplicada:detalleVacunacion.aplicaciones.length +" de " +detalleVacunacion.vacuna.cantidadAplicar,
+              proximaFechaDeAplicacion: detalleVacunacion.aplicaciones.length == detalleVacunacion.vacuna.cantidadAplicar ? '✔' : proximaFechaDeAplicacion
             });
           });
           this.vacunas = vacunas;
