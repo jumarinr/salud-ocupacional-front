@@ -111,11 +111,20 @@ export default {
         }
         var vacunas = [];
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
+          var proximaFechaDeAplicacion = "--"
+          var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0].split("-")
+          proximaFechaDeAplicacion = new Date()
+          proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
+          // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
+          proximaFechaDeAplicacion.setMonth(ultimaFechaDeAplicacion[1] - 1)
+          proximaFechaDeAplicacion.setDate((parseInt(ultimaFechaDeAplicacion[2]) + parseInt(detalleVacunacion.vacuna.periodicidad)))
+          proximaFechaDeAplicacion = proximaFechaDeAplicacion.getDate() + "/" + (proximaFechaDeAplicacion.getMonth() + 1) + "/" + proximaFechaDeAplicacion.getFullYear()
+
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
-            cantidadAplicada: detalleVacunacion.cantidadAplicada +" de " + detalleVacunacion.vacuna.cantidadAplicar,
-            proximaFechaDeAplicacion: detalleVacunacion.cantidadAplicada == detalleVacunacion.vacuna.cantidadAplicar ? '✔' : 0, //TODO: conectar con lo que falta
-            _rowVariant:detalleVacunacion.cantidadAplicada == 0 ? 'danger' : detalleVacunacion.cantidadAplicada == detalleVacunacion.vacuna.cantidadAplicar ? 'success' : ''
+            cantidadAplicada: detalleVacunacion.aplicaciones.length +" de " + detalleVacunacion.vacuna.cantidadAplicar,
+            proximaFechaDeAplicacion: detalleVacunacion.aplicaciones.length == detalleVacunacion.vacuna.cantidadAplicar ? '✔' : proximaFechaDeAplicacion, //TODO: conectar con lo que falta
+            _rowVariant:detalleVacunacion.aplicaciones.length == 0 ? 'danger' : detalleVacunacion.aplicaciones.length == detalleVacunacion.vacuna.cantidadAplicar ? 'success' : ''
           });
         });
         this.vacunas = vacunas;
