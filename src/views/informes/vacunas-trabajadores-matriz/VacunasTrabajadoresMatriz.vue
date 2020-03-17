@@ -5,18 +5,32 @@
 
     <Container>
       <div class="w-100 d-flex flex-column align-items-center p-3">
-        <div class="my-3 align-self-end">
-          <!-- Start Buscador de trabajador por nombre o identificacion -->
-          <div class="d-inline-block">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Buscar Trabajador"
-              aria-label="Buscar Trabajador"
-              v-model="filtroTrabajador"
-            />
+
+            <div class="w-100">
+          <!-- Botón Registrar -->
+             <download-excel
+                    class   = "btn btn-default"
+                    :data   = "nuevosTabajadores"
+                    :fields = "camposExcel"
+                    type    = "xls"
+                    name    = "filename.xls">
+                        <b-button class="my-3 float-left" variant="primary">
+                      <img width="8%" height="8%" src='https://image.flaticon.com/icons/svg/126/126488.svg'> 
+                        &nbsp; <label>Descargar Matriz</label>
+                           </b-button>
+                  </download-excel>
+       
+
+          <!-- Buscador -->
+          <div class="my-3 float-right">
+             <input
+                class="form-control"
+                type="text"
+                placeholder="Buscar Trabajador"
+                aria-label="Buscar Trabajador"
+                v-model="filtroTrabajador"
+                />
           </div>
-          <!-- End Buscador -->
         </div>
 
         <!-- Start Tabla donde se muestran los datos de los trabajadores -->
@@ -48,6 +62,9 @@ import axios from "axios";
 import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Footer from "@/components/Footer.vue";
+import JsonExcel from 'vue-json-excel'
+import Vue from 'vue';
+Vue.component('downloadExcel', JsonExcel)
 
 export default {
   name: "VacunasTrabajadores",
@@ -66,10 +83,27 @@ export default {
         { key: "nombres", sortable: true },
       ],
       trabajadores: [],
+      nuevosTabajadores: [],
+      camposExcel:{   'Identificacion': 'identificacion',
+            'Nombre' : 'nombres',
+            'Direccion': 'direccion',},
       vacunas: [],
       filterOn: ["identificacion", "nombres"],
-      sortBy: "nombres"
-    };
+      sortBy: "nombres",
+       json_fields: {
+            'Identificacion': 'identificacion',
+            'Nombre' : 'nombres',
+            'Direccion': 'direccion',
+        },
+        json_meta: [
+            [
+                {
+                    'key': 'charset',
+                    'value': 'utf-8'
+                }
+            ]
+        ],
+      } 
   },
   created() {
     this.obtenertrabajadores();
@@ -96,7 +130,6 @@ export default {
               trabajador.areaTrabajo == "Empleado normal"
             );
           });
-
           /*
            *  Los diferentes colores que se pueden utilizar:
            *  primary
@@ -167,18 +200,35 @@ export default {
                   trabajador._cellVariants[detalle.vacuna.nombre] = color
                 }
               }
+
+            const listaTrabajadores = Object.assign(this.trabajadores)
+            this.nuevosTabajadores = listaTrabajadores.map((trabajador)=>{
+            let vacunas = trabajador._cellVariants ? Object.keys(trabajador._cellVariants) : [];
+            let arrayVacunas = [];
+            vacunas.map((vacuna)=>{
+              
+              if(vacuna != "identificacion" && vacuna != "nombres"){
+                arrayVacunas.push({ [`${vacuna}`] : trabajador._cellVariants[`${vacuna}`]});
+              }
+            })
+            const retorno = Object.assign(trabajador, ...arrayVacunas)
+            return {...retorno}
+          })   
+          console.log(this.nuevosTabajadores)
               
           }
-          
+     
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
-          if (error.response.status == 405) {
+          if (error && error.response && error.response.status == 405) {
             localStorage.removeItem("usertoken");
             localStorage.removeItem("authenticated");
             localStorage.removeItem("areaTrabajo");
             localStorage.removeItem("id");
             this.$router.push("/");
+          } else if (error){
+            console.log(error)
           }
         });
     }, 
@@ -194,7 +244,9 @@ export default {
         this.vacunas = res.data.datos;
         for(let vacuna of this.vacunas){
           this.campostrabajadores.push({key: vacuna.nombre, sortable: false})
+          this.camposExcel[`${vacuna.nombre}`] = vacuna.nombre;
         }
+        console.log(this.campostrabajadores)
       }).catch((error) =>{
           // Ya no existe la sesión en el servidor
           if (error.response.status == 405) {
