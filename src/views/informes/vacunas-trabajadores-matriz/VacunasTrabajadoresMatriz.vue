@@ -4,10 +4,15 @@
     <Header />
 
     <Container>
-      <div class="w-100 d-flex flex-column align-items-center p-3">
-        <div class="my-3 align-self-end">
+      <div class="w-100 d-flex flex-column p-3">
+        <div class="d-flex justify-content-between my-3">
+          <!-- Botón de descarga -->
+          <div class="">
+            <b-button class="btn btn-success" v-on:click="descargarMatriz()">Descargar matriz</b-button>
+          </div>
+
           <!-- Start Buscador de trabajador por nombre o identificacion -->
-          <div class="d-inline-block">
+          <div class="">
             <input
               class="form-control"
               type="text"
@@ -205,6 +210,9 @@ export default {
             this.$router.push("/")
           }
         });
+    },
+    descargarMatriz(){
+      
     }
   }
 };
