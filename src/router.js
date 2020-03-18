@@ -11,6 +11,7 @@ import FormularioVacuna from './views/vacunas/FormularioVacuna'
 
 import AplicarVacunas from './views/aplicar-vacunas/AplicarVacunas'
 import AplicarVacunasTrabajador from './views/aplicar-vacunas/AplicarVacunasTrabajador'
+import EditarVacunaTrabajador from './views/aplicar-vacunas/EditarVacunaTrabajador'
 
 import Trabajadores from './views/trabajadores/Trabajadores'
 import VerTrabajador from './views/trabajadores/VerTrabajador'
@@ -19,6 +20,8 @@ import FormularioTrabajador from './views/trabajadores/FormularioTrabajador'
 import VacunasTrabajadores from './views/informes/vacunas-trabajadores/VacunasTrabajadores'
 import VacunasTrabajador from './views/informes/vacunas-trabajadores/VacunasTrabajador'
 import VacunasTrabajadoresMatriz from './views/informes/vacunas-trabajadores-matriz/VacunasTrabajadoresMatriz'
+import VacunasCostos from './views/informes/vacunas/VacunasCostos'
+
 
 Vue.use(Router)
 
@@ -151,6 +154,15 @@ const router = new Router({
     }
   },
   {
+    path: '/vacunas/aplicar/:idTrabajador/editar/:idVacuna',
+    name: 'EditarVacunaTrabajador',
+    component: EditarVacunaTrabajador,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal"]
+    }
+  },
+  {
     path: '/informes/vacunas/trabajadores',
     name: 'VacunasTrabajadores',
     component: VacunasTrabajadores,
@@ -172,6 +184,15 @@ const router = new Router({
     path: '/informes/vacunas/trabajadores/matriz',
     name: 'VacunasTrabajadoresMatriz',
     component: VacunasTrabajadoresMatriz,
+    meta: {
+      requiresAuth: true,
+      areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]
+    }
+  },
+  {
+    path: '/informes/vacunas/costos',
+    name: 'VacunasCostos',
+    component: VacunasCostos,
     meta: {
       requiresAuth: true,
       areasTrabajoRestringidas: ["Empleado normal", "Empleado salud"]

@@ -63,6 +63,16 @@
                 rows="3"
               />
             </b-form-group>
+            <div class="form-group row">
+              <div class="col-sm">
+                <b-form-input
+                  type="number"
+                  min="0"
+                  v-model="costo"
+                  placeholder="Costo"
+                />
+              </div>
+            </div>
             <!-- Botón Registrar -->
             <b-button class="float-right" type="submit" variant="primary">{{ modoEdicion ? 'Editar' : 'Registrar'}}</b-button>
           </b-form>
@@ -97,6 +107,7 @@ export default {
       periodicidad: "",
       cantidadAplicar: "",
       prestadorServicio: "",
+      costo: "",
       error: {}
     };
   },
