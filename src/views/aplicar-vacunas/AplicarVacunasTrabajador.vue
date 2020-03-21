@@ -209,7 +209,7 @@ export default {
       })
     },
     verVacuna(vacuna){
-
+      window.location.href= "/vacunas/aplicar/"+this.idTrabajador+"/editar/"+vacuna.item.id
     },
     setFechaUltimaAplicacion(fechaUltimaAplicacion) {
       this.fechaUltimaAplicacion = fechaUltimaAplicacion
