@@ -8,7 +8,7 @@
         <div class="w-100">
           <!-- Datos trabajador -->
           <!-- TODO: ESTABLECER RUTA PARA EL BOTÓN DE VOLVER -->
-          <b-button to="" class="my-3 float-right" variant="primary">Volver</b-button>
+          <b-button @click="volver()" class="my-3 float-right" variant="primary">Volver</b-button>
 
           <h5 class>Nombres Apellidos</h5>
           <h5 class>Identificacion: No de identificación</h5>
@@ -107,6 +107,7 @@ export default {
     return {
       baseUrl: process.env.VUE_APP_BASE_URL,
       idVacuna: this.$route.params.idVacuna,
+      idTrabajador: this.$route.params.idTrabajador,
       // ----- Datos de la tabla
       camposAplicaciones: [
         { key: "dosis", sortable: true },
@@ -148,6 +149,9 @@ export default {
     }
   },
   methods: {
+    volver() {
+      window.location.href="/vacunas/aplicar/"+this.idTrabajador
+    },
     editarAplicacion(aplicacion) {
       
     },
