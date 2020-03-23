@@ -31,7 +31,7 @@
               <!-- Funcionalidad de editar la aplicación de la vacuna -->
               <template v-slot:cell(editar)="data">
                 <button
-                  @click="editarAplicacion(data); $bvModal.show(data.item.dosis + 'editar')"
+                  @click="formatearFecha(data.item.fechaDeAplicacion); $bvModal.show(data.item.dosis + 'editar')"
                   class="btn btn-info"
                 >
                   <i class="fas fa-edit"></i>
@@ -43,7 +43,7 @@
                   <div class="d-block text-center">
                     <input
                       type="date"
-                      v-model="data.item.fechaDeAplicacion"
+                      v-model="fechaDeAplicacion"
                       class="form-control"
                       required
                     />
@@ -118,7 +118,8 @@ export default {
       aplicaciones: [],
       // ----- Datos de la paginacion
       perPage: 10,
-      currentPage: 1
+      currentPage: 1,
+      fechaDeAplicacion: ""
     };
   },
   created() {
@@ -147,8 +148,8 @@ export default {
         // Se llena el arreglo "aplicaciones"
         var dosis = 1
         this.detalleVacunacionTrabajador.aplicaciones.forEach(fechaDeAplicacion => {
-          var fechaDeAplicacion = String(fechaDeAplicacion.fecha).split("T")[0].split("-")
-          var fechaDeAplicacionFormateada = fechaDeAplicacion[2] + "/" + fechaDeAplicacion[1] + "/" + fechaDeAplicacion[0]
+          var fechaDeAplicacion1 = String(fechaDeAplicacion.fecha).split("T")[0].split("-")
+          var fechaDeAplicacionFormateada = fechaDeAplicacion1[2] + "/" + fechaDeAplicacion1[1] + "/" + fechaDeAplicacion1[0]
           var aplicacion = {"dosis": dosis, "fechaDeAplicacion": fechaDeAplicacionFormateada}
           this.aplicaciones.push(aplicacion)
           dosis += 1
@@ -164,8 +165,39 @@ export default {
         }
       })
     },
+    formatearFecha(fecha) {
+      var fecha1 = fecha.split("/")
+      this.fechaDeAplicacion = fecha1[2] + "-" + fecha1[1] + "-" + fecha1[0]
+    },
     editarAplicacion(aplicacion) {
-      
+      axios({
+        method: "PUT", 
+        url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + this.idVacuna, 
+        withCredentials: true,
+        data: {
+          numAplicacion: aplicacion.item.dosis,
+          fechaAplicacion: this.fechaDeAplicacion
+        }
+      }).then(res => {
+        this.$bvModal.msgBoxOk(res.data.mensaje, {
+          buttonSize: 'sm',
+          okVariant: res.data.error == false ? "success" : "danger"
+        }).then(value => {
+          if (res.data.error == false) {
+            // Refrescar la página para mostrar los cambios
+            this.$router.go()
+          }
+        })
+      }).catch(error => {
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem("usertoken");
+          localStorage.removeItem("authenticated");
+          localStorage.removeItem("areaTrabajo");
+          localStorage.removeItem("id");
+          this.$router.push("/");
+        }
+      })
     },
     eliminarAplicacion(aplicacion) {
       this.$bvModal.msgBoxConfirm("¿Desea eliminar la aplicación " + aplicacion.item.dosis + " de la vacuna?", {
