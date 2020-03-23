@@ -7,15 +7,12 @@
       <div class="w-100 d-flex flex-column align-items-center p-3">
         <div class="w-100">
           <!-- Datos trabajador -->
-          <!-- TODO: ESTABLECER RUTA PARA EL BOTÓN DE VOLVER -->
-          <b-button to="" class="my-3 float-right" variant="primary">Volver</b-button>
-
-          <h5 class>Nombres Apellidos</h5>
-          <h5 class>Identificacion: No de identificación</h5>
-          <!-- TODO: ESTABLECER NOMBRE DE LA VACUNA -->
-          <h5 class>Vacuna: Nombre de la vacuna</h5>
+          <b-button :to='"/vacunas/aplicar/" + this.idTrabajador' class="my-3 float-right" variant="primary">Volver</b-button>
+          <h5 class>{{this.trabajador.nombres}} {{this.trabajador.apellidos}}</h5>
+          <h5 class>Identificacion: {{this.trabajador.identificacion}}</h5>
+          <h5 class>Vacuna: {{this.nombreVacuna}}</h5>
         </div>
-        <div class="w-100 mt-5">
+        <div class="w-100 mt-2">
           <!-- Titulo de la tabla -->
           <h5>Aplicaciones de la vacuna</h5>
 
@@ -106,6 +103,7 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_BASE_URL,
+      idTrabajador: this.$route.params.idTrabajador,
       idVacuna: this.$route.params.idVacuna,
       // ----- Datos de la tabla
       camposAplicaciones: [
@@ -114,33 +112,17 @@ export default {
         { key: "editar", sortable: false },
         { key: "eliminar", sortable: false }
       ],
-      vacuna: {},
-      aplicaciones: [
-        {"dosis": "1", "fechaDeAplicacion": "12/12/2020"}, 
-        {"dosis": "2", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "3", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "4", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "5", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "6", "fechaDeAplicacion": "12/12/2020"}, 
-        {"dosis": "7", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "8", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "9", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "10", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "11", "fechaDeAplicacion": "12/12/2020"}, 
-        {"dosis": "12", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "13", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "14", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "15", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "16", "fechaDeAplicacion": "12/12/2020"}, 
-        {"dosis": "17", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "18", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "19", "fechaDeAplicacion": "12/12/2020"},
-        {"dosis": "20", "fechaDeAplicacion": "12/12/2020"}
-        ],
+      trabajador: {},
+      detalleVacunacionTrabajador: {},
+      nombreVacuna: "",
+      aplicaciones: [],
       // ----- Datos de la paginacion
       perPage: 10,
       currentPage: 1
     };
+  },
+  created() {
+    this.obtenerDatosEmpleado();
   },
   computed: {
     rows() {
@@ -148,11 +130,84 @@ export default {
     }
   },
   methods: {
+    obtenerDatosEmpleado() {
+      axios({
+        method: "GET", 
+        url: this.baseUrl + "/empleados/" + this.idTrabajador, 
+        withCredentials: true
+      }).then(res => {
+        this.trabajador = res.data.datos;
+
+        this.detalleVacunacionTrabajador = this.trabajador.detallesVacunacion.filter(detalleVacunacion => {
+          return detalleVacunacion.vacuna._id.toString() == this.idVacuna.toString()
+        })[0]
+
+        this.nombreVacuna = this.detalleVacunacionTrabajador.vacuna.nombre
+
+        // Se llena el arreglo "aplicaciones"
+        var dosis = 1
+        this.detalleVacunacionTrabajador.aplicaciones.forEach(fechaDeAplicacion => {
+          var fechaDeAplicacion = String(fechaDeAplicacion).split("T")[0].split("-")
+          var fechaDeAplicacionFormateada = fechaDeAplicacion[2] + "/" + fechaDeAplicacion[1] + "/" + fechaDeAplicacion[0]
+          var aplicacion = {"dosis": dosis, "fechaDeAplicacion": fechaDeAplicacionFormateada}
+          this.aplicaciones.push(aplicacion)
+          dosis += 1
+        })
+      }).catch((error) =>{
+        // Ya no existe la sesión en el servidor
+        if (error.response.status == 405) {
+          localStorage.removeItem('usertoken')
+          localStorage.removeItem("authenticated")
+          localStorage.removeItem("areaTrabajo")
+          localStorage.removeItem("id")
+          this.$router.push("/")
+        }
+      })
+    },
     editarAplicacion(aplicacion) {
       
     },
     eliminarAplicacion(aplicacion) {
-      
+      this.$bvModal.msgBoxConfirm("¿Desea eliminar la aplicación " + aplicacion.item.dosis + " de la vacuna?", {
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "danger",
+        okTitle: "Eliminar",
+        cancelTitle: "Cancelar",
+        footerClass: "p-2",
+        hideHeaderClose: false,
+        centered: true
+      }).then(value => {
+        if (value) {
+          axios({
+            method: "DELETE", 
+            url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + this.idVacuna, 
+            withCredentials: true,
+            data: {
+              numAplicacion: aplicacion.item.dosis
+            }
+          }).then(res => {
+            this.$bvModal.msgBoxOk(res.data.mensaje, {
+              buttonSize: 'sm',
+              okVariant: res.data.error == false ? "success" : "danger"
+            }).then(value => {
+              if (res.data.error == false) {
+                // Refrescar la página para mostrar los cambios
+                this.$router.go()
+              }
+            })
+          }).catch(error => {
+            // Ya no existe la sesión en el servidor
+            if (error.response.status == 405) {
+              localStorage.removeItem("usertoken");
+              localStorage.removeItem("authenticated");
+              localStorage.removeItem("areaTrabajo");
+              localStorage.removeItem("id");
+              this.$router.push("/");
+            }
+          })
+        }
+      })
     }
   }
 };

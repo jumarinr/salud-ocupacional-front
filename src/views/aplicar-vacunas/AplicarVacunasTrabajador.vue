@@ -209,7 +209,7 @@ export default {
       })
     },
     verVacuna(vacuna){
-
+      this.$router.push("/vacunas/aplicar/" + this.idTrabajador + "/editar/" + vacuna.item.id);
     },
     setFechaUltimaAplicacion(fechaUltimaAplicacion) {
       this.fechaUltimaAplicacion = fechaUltimaAplicacion
