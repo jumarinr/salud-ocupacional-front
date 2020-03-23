@@ -15,7 +15,7 @@
               type="xls"
               name="filename.xls"
             >
-              <b-button class="btn btn-success" v-on:click="descargarMatriz()">
+              <b-button class="btn btn-success">
                 Descargar matriz
               </b-button>
             </download-excel>
@@ -110,6 +110,7 @@ export default {
   created() {
     this.obtenertrabajadores();
     this.obtenerVacunas();
+    this.descargarMatriz();
   },
   methods: {
     obtenertrabajadores() {
@@ -240,25 +241,8 @@ export default {
                 trabajador._cellVariants[detalle.vacuna.nombre] = color;
               }
             }
-
-            const listaTrabajadores = Object.assign(this.trabajadores);
-            this.nuevosTabajadores = listaTrabajadores.map(trabajador => {
-              let vacunas = trabajador._cellVariants
-                ? Object.keys(trabajador._cellVariants)
-                : [];
-              let arrayVacunas = [];
-              vacunas.map(vacuna => {
-                if (vacuna != "identificacion" && vacuna != "nombres") {
-                  arrayVacunas.push({
-                    [`${vacuna}`]: trabajador._cellVariants[`${vacuna}`]
-                  });
-                }
-              });
-              const retorno = Object.assign(trabajador, ...arrayVacunas);
-              return { ...retorno };
-            });
-            console.log(this.nuevosTabajadores);
           }
+          this.descargarMatriz();
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
@@ -302,7 +286,23 @@ export default {
           }
         });
     },
-    descargarMatriz() {}
+    descargarMatriz() {
+      const nuevosTabajadores = this.trabajadores.map(trabajador => {
+        let vacunas = trabajador._cellVariants
+          ? Object.keys(trabajador._cellVariants)
+          : [];
+        let arrayVacunas = [];
+        vacunas.map(vacuna => {
+          if (vacuna != "identificacion" && vacuna != "nombres") {
+            arrayVacunas.push({
+              [`${vacuna}`]: trabajador._cellVariants[`${vacuna}`]
+            });
+          }
+        });
+        //const retorno = Object.assign(trabajador, ...arrayVacunas);
+        // return { ...retorno };
+      });
+    }
   }
 };
 </script>
