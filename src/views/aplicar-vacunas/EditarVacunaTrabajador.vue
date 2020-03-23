@@ -147,7 +147,7 @@ export default {
         // Se llena el arreglo "aplicaciones"
         var dosis = 1
         this.detalleVacunacionTrabajador.aplicaciones.forEach(fechaDeAplicacion => {
-          var fechaDeAplicacion = String(fechaDeAplicacion).split("T")[0].split("-")
+          var fechaDeAplicacion = String(fechaDeAplicacion.fecha).split("T")[0].split("-")
           var fechaDeAplicacionFormateada = fechaDeAplicacion[2] + "/" + fechaDeAplicacion[1] + "/" + fechaDeAplicacion[0]
           var aplicacion = {"dosis": dosis, "fechaDeAplicacion": fechaDeAplicacionFormateada}
           this.aplicaciones.push(aplicacion)
