@@ -54,37 +54,12 @@
                 </b-modal>
               </template>
 
-              <!-- Funcionalidad de editar vacuna -->
-              <template v-slot:cell(editar)="data">
-                <button :disabled="data.item.aplicacionesHechas == 0" @click="setFechaUltimaAplicacion(data.item.fechaUltimaAplicacion); $bvModal.show(data.item.id + 'editar')" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
-
-                <b-modal :id="data.item.id + 'editar'" hide-footer>
-                  <template v-slot:modal-title>Editar fecha de la última aplicación:</template>
-
-                  <div class="d-block text-center">
-                    <input
-                      type="date"
-                      v-model="fechaUltimaAplicacion"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-
-                  <b-button
-                    class="mt-3 btn-info"
-                    block
-                    v-on:click="editarVacuna(data)"
-                    @click="$bvModal.hide(data.item.id + 'editar')"
-                  >Editar</b-button>
-                </b-modal>
-              </template>
-
-              <!-- Funcionalidad de eliminar vacuna -->
-              <template v-slot:cell(eliminar)="data">
-                <button :disabled="data.item.aplicacionesHechas == 0" v-on:click="eliminarVacuna(data)" class="btn btn-danger">
-                  <i class="fas fa-trash-alt"></i>
+              <!-- Funcionalidad de ver vacuna -->
+              <template v-slot:cell(ver)="data">
+                <button 
+                class="btn btn-primary" 
+                v-on:click="verVacuna(data)">
+                  <i class="fas fa-eye"></i>
                 </button>
               </template>
             </b-table>
@@ -134,8 +109,7 @@ export default {
         { key: "cantidadAplicada", sortable: false },
         { key: "proximaFechaDeAplicacion", sortable: false },
         { key: "aplicar", sortable: false },
-        { key: "editar", sortable: false },
-        { key: "eliminar", sortable: false }
+        { key: "ver", sortable: false }
       ],
       vacunas: [],
       // ----- Datos del paginacion
@@ -170,7 +144,7 @@ export default {
             var proximaFechaDeAplicacion = "--"
 
             if (detalleVacunacion.aplicaciones.length > 0) {
-              var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0].split("-")
+              var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1].fecha).split("T")[0].split("-")
               proximaFechaDeAplicacion = new Date()
               proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
               // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
@@ -234,78 +208,8 @@ export default {
         }
       })
     },
-    editarVacuna(vacuna) {
-      axios({
-        method: "PUT",
-        url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + vacuna.item.id,
-        withCredentials: true,
-        data: {
-          fechaAplicacion: this.fechaUltimaAplicacion
-        }
-      }).then(res => {
-        this.$bvModal.msgBoxOk(res.data.mensaje, {
-          buttonSize: 'sm',
-          okVariant: res.data.error == false ? "success" : "danger"
-        }).then(value => {
-          if (res.data.error == false) {
-            // Refrescar la página para mostrar los cambios
-            this.$router.go()
-          }
-        })
-      }).catch(error => {
-        // Ya no existe la sesión en el servidor
-        if (error.response.status == 405) {
-          localStorage.removeItem("usertoken");
-          localStorage.removeItem("authenticated");
-          localStorage.removeItem("areaTrabajo");
-          localStorage.removeItem("id");
-          this.$router.push("/");
-        }
-      })
-    },
-    eliminarVacuna(vacuna) {
-      this.$bvModal
-        .msgBoxConfirm("¿Desea eliminar la última fecha de aplicación?", {
-          size: "sm",
-          buttonSize: "sm",
-          okVariant: "danger",
-          okTitle: "Eliminar",
-          cancelTitle: "Cancelar",
-          footerClass: "p-2",
-          hideHeaderClose: false,
-          centered: true
-        })
-        .then(value => {
-          if (value) {
-            axios({
-              method: "DELETE",
-              url: this.baseUrl + "/empleados/" + this.idTrabajador + "/vacunas/" + vacuna.item.id,
-              withCredentials: true
-            }).then(res => {
-              this.$bvModal.msgBoxOk(res.data.mensaje, {
-                buttonSize: 'sm',
-                okVariant: res.data.error == false ? "success" : "danger"
-              }).then(value => {
-                if (res.data.error == false) {
-                  // Refrescar la página para mostrar los cambios
-                  this.$router.go()
-                }
-              })
-            }).catch(error => {
-              // Ya no existe la sesión en el servidor
-              if (error.response.status == 405) {
-                localStorage.removeItem("usertoken");
-                localStorage.removeItem("authenticated");
-                localStorage.removeItem("areaTrabajo");
-                localStorage.removeItem("id");
-                this.$router.push("/");
-              }
-            })
-          }
-        })
-        .catch(err => {
-          // An error occurred
-        });
+    verVacuna(vacuna){
+      this.$router.push("/vacunas/aplicar/" + this.idTrabajador + "/editar/" + vacuna.item.id);
     },
     setFechaUltimaAplicacion(fechaUltimaAplicacion) {
       this.fechaUltimaAplicacion = fechaUltimaAplicacion
