@@ -144,7 +144,7 @@ export default {
             var proximaFechaDeAplicacion = "--"
 
             if (detalleVacunacion.aplicaciones.length > 0) {
-              var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0].split("-")
+              var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1].fecha).split("T")[0].split("-")
               proximaFechaDeAplicacion = new Date()
               proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
               // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
@@ -209,7 +209,7 @@ export default {
       })
     },
     verVacuna(vacuna){
-      window.location.href= "/vacunas/aplicar/"+this.idTrabajador+"/editar/"+vacuna.item.id
+      this.$router.push("/vacunas/aplicar/" + this.idTrabajador + "/editar/" + vacuna.item.id);
     },
     setFechaUltimaAplicacion(fechaUltimaAplicacion) {
       this.fechaUltimaAplicacion = fechaUltimaAplicacion
