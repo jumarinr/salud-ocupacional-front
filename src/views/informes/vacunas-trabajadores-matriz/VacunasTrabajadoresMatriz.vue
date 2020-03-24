@@ -48,6 +48,7 @@ import axios from "axios";
 import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Footer from "@/components/Footer.vue";
+import XLSX from "xlsx";
 
 export default {
   name: "VacunasTrabajadores",
@@ -205,6 +206,51 @@ export default {
             this.$router.push("/")
           }
         });
+    },
+    
+    descargarMatriz() {
+      
+      let matriz = []
+      let fila1 = ["Identificacion","Nombres"]
+      for (let vacuna of this.vacunas) {
+        fila1.push(vacuna.nombre)
+      }
+      matriz.push(fila1)
+
+      let nombres = []
+      for (let trabajador of this.trabajadores) {
+        nombres.push(trabajador.nombres)
+        matriz.push([])
+      }
+      nombres.sort()
+
+      let filasTrabajadores = []
+      for (let trabajador of this.trabajadores) {
+        let fila = [trabajador.identificacion,trabajador.nombres]
+        for (let index = 2; index < fila1.length; index++) {
+          let vacuna = fila1[index]
+          if (trabajador._cellVariants[vacuna] == "primary"){
+            fila.push("Al dia")
+          }else if(trabajador._cellVariants[vacuna] == "danger"){
+            fila.push("Atrasado")
+          }else if(trabajador._cellVariants[vacuna] == "success"){
+            fila.push("Vacuna completa")
+          }else{
+            fila.push("")
+          }
+        }
+        filasTrabajadores.push(fila)
+      }
+
+      for (let fila of filasTrabajadores) {
+        let indice = nombres.indexOf(fila[1]) + 1
+        matriz[indice] = fila
+      }
+
+      let sheet1 = XLSX.utils.aoa_to_sheet(matriz)
+      const workbook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(workbook, sheet1)
+      XLSX.writeFile(workbook, "informeMatriz.xlsx")
     }
   }
 };
