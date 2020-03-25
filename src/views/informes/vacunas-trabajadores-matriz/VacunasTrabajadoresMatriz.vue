@@ -156,7 +156,7 @@ export default {
                           this.trabajadores[index].detallesVacunacion[
                             indexDetalles
                           ].aplicaciones.length - 1
-                        ]
+                        ].fecha
                       )
                     );
                     if (

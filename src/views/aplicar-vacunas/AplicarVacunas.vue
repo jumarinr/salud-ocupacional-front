@@ -115,7 +115,6 @@ export default {
   },
   created() {
     this.obtenertrabajadores();
-    this.filtarCompletos();
   },
   methods: {
     obtenertrabajadores() {
@@ -156,7 +155,7 @@ export default {
                           this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Vacuna completa"
                           vacunaCompleta ++
                         }else{
-                          var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length - 1]))
+                          var ultimaAplicacion = new Date(Date.parse(this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones[this.trabajadores[index].detallesVacunacion[indexDetalles].aplicaciones.length - 1].fecha))
                           if(Math.floor((hoy.getTime() - ultimaAplicacion.getTime())/(1000*60*60*24)) > this.trabajadores[index].detallesVacunacion[indexDetalles].vacuna.periodicidad){
                             this.trabajadores[index].detallesVacunacion[indexDetalles]["estado"] = "Atrasado"
                             cantAtrasadas ++
@@ -171,16 +170,15 @@ export default {
                     this.trabajadores[index]["estadoGeneral"] = "completoTodo"
                   }
                 }
+  
                 if(cantAtrasadas > 0){
                   this.trabajadores[index]["estadoGeneral"] = "atrasado"
-                }else{
+                }else if((cantAtrasadas <= 0) && (this.trabajadores[index]["estadoGeneral"] !== "completoTodo")){
                   this.trabajadores[index]["estadoGeneral"] = "al dia"
                 }
                 
-                 
-                
-                
           }
+          this.filtarCompletos();
         })
         .catch(error => {
           // Ya no existe la sesión en el servidor
