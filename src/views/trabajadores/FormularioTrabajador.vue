@@ -22,7 +22,7 @@
               </div>
               <div class="form-group" v-if="this.tipoDocumento == 'cc'">
                 <label for="documento">Identificación</label>
-                <input type="text" v-model="documento" class="form-control" pattern= "[0-9]{10}" id="documento" placeholder="Identificación" required/>         
+                <input type="text" v-model="documento" class="form-control" pattern= "^((\d{8})|(\d{10})|(\d{11})|(\d{6}-\d{5}))?$" id="documento" placeholder="Identificación" required/>         
               </div>
               <div class="form-group" v-else>
                 <label for="documento">Identificación</label>
