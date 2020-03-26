@@ -68,6 +68,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
         fechaInicial: "",
         fechaFinal: "",
         costoTotal: 0,
@@ -88,7 +89,7 @@ export default {
       this.itemsVacunas = []
       axios({
         method: "POST",
-        url:"http://salud-ocupacional-back.herokuapp.com/vacunas/informe",
+        url: this.baseUrl + "/vacunas/informe",
         withCredentials: true,
         data: {
             fechaI: this.fechaInicial, 
