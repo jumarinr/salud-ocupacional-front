@@ -112,7 +112,7 @@ export default {
         var vacunas = [];
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           var proximaFechaDeAplicacion = "--"
-          var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1]).split("T")[0].split("-")
+          var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1].fecha).split("T")[0].split("-")
           proximaFechaDeAplicacion = new Date()
           proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
           // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
