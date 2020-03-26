@@ -20,10 +20,15 @@
                 <label for="tipoDocumento">Tipo de identificación</label>
                 <b-form-select v-model="tipoDocumento" :options="opcionesTipoDoc" required></b-form-select>
               </div>
-              <div class="form-group">
+              <div class="form-group" v-if="this.tipoDocumento == 'cc'">
                 <label for="documento">Identificación</label>
-                <input type="text" v-model="documento" class="form-control" id="documento" placeholder="Identificación" required/>
+                <input type="text" v-model="documento" class="form-control" pattern= "[0-9]{10}" id="documento" placeholder="Identificación" required/>         
               </div>
+              <div class="form-group" v-else>
+                <label for="documento">Identificación</label>
+                <input type="text" v-model="documento" class="form-control" pattern= "\w+(\-)?[0-9]+" id="documento" placeholder="Identificación" required/>         
+              </div>
+              
               <div class="form-group">
               <div class="form-group">
                 <label for="correo">Correo</label>
@@ -46,15 +51,15 @@
               </div>
               <div class="form-group">
                 <label for="telefono">Teléfono</label>
-                <input type="text" v-model="telefono" class="form-control" id="telefono" placeholder="Teléfono" required/>
+                <input type="text" v-model="telefono" class="form-control" pattern="^[0-9]{7}" id="telefono" placeholder="Teléfono" required/>
               </div>
               <div class="form-group">
                 <label for="celular">Celular</label>
-                <input type="text" v-model="celular" class="form-control" id="celular" placeholder="Celular" />
+                <input type="text" v-model="celular" class="form-control"  pattern="^[0-9]{10}" id="celular" placeholder="Celular" />
               </div>
               <div class="form-group text-left">
                 <label for="telefonoFamiliar">Contacto de allegado</label>
-                <input type="text" v-model="telefonoFamiliar" class="form-control" id="telefonoFamiliar" placeholder="Contacto de allegado" required />
+                <input type="text" v-model="telefonoFamiliar" class="form-control" pattern="^[0-9]{7}|[0-9]{10}" id="telefonoFamiliar" placeholder="Contacto de allegado" required />
               </div>
               <div class="form-group">
                 <label for="nivelRiesgo">Nivel de riesgo laboral</label>
