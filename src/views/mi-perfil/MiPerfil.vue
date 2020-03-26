@@ -112,14 +112,15 @@ export default {
         var vacunas = [];
         this.trabajador.detallesVacunacion.forEach(function(detalleVacunacion) {
           var proximaFechaDeAplicacion = "--"
-          var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1].fecha).split("T")[0].split("-")
-          proximaFechaDeAplicacion = new Date()
-          proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
-          // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
-          proximaFechaDeAplicacion.setMonth(ultimaFechaDeAplicacion[1] - 1)
-          proximaFechaDeAplicacion.setDate((parseInt(ultimaFechaDeAplicacion[2]) + parseInt(detalleVacunacion.vacuna.periodicidad)))
-          proximaFechaDeAplicacion = proximaFechaDeAplicacion.getDate() + "/" + (proximaFechaDeAplicacion.getMonth() + 1) + "/" + proximaFechaDeAplicacion.getFullYear()
-
+          if (detalleVacunacion.aplicaciones.length > 0) {
+            var ultimaFechaDeAplicacion = String(detalleVacunacion.aplicaciones[detalleVacunacion.aplicaciones.length - 1].fecha).split("T")[0].split("-")
+            proximaFechaDeAplicacion = new Date()
+            proximaFechaDeAplicacion.setFullYear(ultimaFechaDeAplicacion[0])
+            // En Date() los meses cuentan desde 0 hasta 11, siendo 0 el mes de enero
+            proximaFechaDeAplicacion.setMonth(ultimaFechaDeAplicacion[1] - 1)
+            proximaFechaDeAplicacion.setDate((parseInt(ultimaFechaDeAplicacion[2]) + parseInt(detalleVacunacion.vacuna.periodicidad)))
+            proximaFechaDeAplicacion = proximaFechaDeAplicacion.getDate() + "/" + (proximaFechaDeAplicacion.getMonth() + 1) + "/" + proximaFechaDeAplicacion.getFullYear()
+          }
           vacunas.push({
             nombre: detalleVacunacion.vacuna.nombre,
             cantidadAplicada: detalleVacunacion.aplicaciones.length +" de " + detalleVacunacion.vacuna.cantidadAplicar,
