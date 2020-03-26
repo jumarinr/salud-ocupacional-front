@@ -22,25 +22,29 @@
         <!-- END FILTROS DE FECHA -->
 
         <!-- START TABLA -->
-        <div class="w-100 mt-5">
+        <div class="w-100 mt-5" v-if="this.itemsVacunas && this.itemsVacunas.length>0">
           <!-- Titulo de la tabla -->
           <h5>Costos de las vacunas</h5>
-        <div class="overflow-auto">
-          <b-table
-            class="align-self-stretch shadow border text-center"
-            id="vacunas-costos"
-            :items="itemsVacunas"
-            :fields="camposTabla"
-            small
-            >
-          </b-table>
-        </div>
+          <div class="overflow-auto">
+            <b-table
+              class="align-self-stretch shadow border text-center"
+              id="vacunas-costos"
+              :items="itemsVacunas"
+              :fields="camposTabla"
+              small
+              >
+            </b-table>
+          </div>
         </div>
         <!-- END TABLA -->
 
         <!-- Costo total -->
-        <div class="align-self-end">
+        <div class="align-self-end" v-if="this.itemsVacunas && this.itemsVacunas.length>0">
           <h5 class="font-weight-bold">COSTO TOTAL: {{ costoTotal }}</h5>
+        </div>
+
+        <div class="alert alert-danger mt-4" role="alert" v-if="this.mensaje!==''">
+          {{this.mensaje}}
         </div>
       </div>
     </Container>
@@ -66,8 +70,8 @@ export default {
     return {
         fechaInicial: "",
         fechaFinal: "",
-        costoTotal: "$213.213.423",
-
+        costoTotal: 0,
+        mensaje: '',
       // ----- Datos de la tabla
       camposTabla: [
         { key: "nombre", sortable: true },
@@ -76,54 +80,39 @@ export default {
         { key: "subtotal", sortable: false }
       ],
       itemsVacunas: [
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        },
-        {
-          nombre: "COVID-19",
-          cantDeVecesAplicada: "93.000",
-          cantDeEmpleadosConVacunaAplicada: "70.000",
-          subtotal: 12234
-        }
       ]
     };
   },
   methods: {
     generarInforme(){
-        
+      this.itemsVacunas = []
+      axios({
+        method: "POST",
+        url:"http://salud-ocupacional-back.herokuapp.com/vacunas/informe",
+        withCredentials: true,
+        data: {
+            fechaI: this.fechaInicial, 
+            fechaF: this.fechaFinal
+        }
+      }).then(res => {
+          this.mensaje = ''
+          if(res.data.resultados && res.data.resultados.length == 0){
+            this.mensaje = 'No se encontraron datos en rango de fecha introducida'
+          }else{
+            var suma = 0
+            this.costoTotal = res.data.resultados.filter(function(x){return x.subtotal == null ? 0: x}).map(function(a){ suma = suma + a.subtotal})
+            this.costoTotal = suma
+            for (let vacunaInfo of res.data.resultados){
+              this.itemsVacunas.push({
+                nombre: vacunaInfo.nombre,
+                cantDeVecesAplicada: vacunaInfo.cantidadVecesAplicada,
+                cantDeEmpleadosConVacunaAplicada: vacunaInfo.cantidadEmpleadosVacunados,
+                subtotal: vacunaInfo.subtotal
+              })
+            }
+          }
+      })
+
     }
   }
 };
