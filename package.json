@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "xlsx": "^0.15.6"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
